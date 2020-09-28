@@ -1,0 +1,10 @@
+@import "./assets/styles/customBootstrap.scss";
+
+.btn-link {
+  outline: none;
+  color: white;
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
