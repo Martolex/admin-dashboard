@@ -6,9 +6,16 @@ import "../../styles/Layout/Wrapper.scss";
 import DataContainer from "./DataContainer";
 import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
+import OrderDetails from "../content/Orders/OrderDetails";
 
 const sideBarItems = [
-  { title: "orders", path: "/orders", component: OrdersDashboard },
+  {
+    title: "orders",
+    path: "/orders",
+    exact: true,
+    component: OrdersDashboard,
+    subRoutes: [{ path: "/:id", component: OrderDetails }],
+  },
   { title: "books", path: "/books", component: () => <h1>books</h1> },
   { title: "returns", path: "/returns", component: () => <h1>returns</h1> },
 ];
@@ -25,7 +32,7 @@ const Wrapper = (props) => {
       </Row>
       <Row style={{ flex: "auto" }}>
         <Col
-          md={3}
+          md={2}
           style={{ width: "200px" }}
           className=" sidebar bg-dark text-light"
         >

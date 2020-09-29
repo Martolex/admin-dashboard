@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container, Table, Row, Col, Nav } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import "../../../styles/Content/Orders/OrderDashboard.scss";
+import { ordersApi } from "../../../utils/EndPoints";
+import moment from "moment";
+import { get } from "../../../utils/requests";
 const OrdersDashboard = (props) => {
-  console.log(props);
+  const [orders, setOrders] = useState([]);
+  async function getData(api, params) {
+    console.log(api);
+    try {
+      const [data] = await get(api, true, params);
+      setOrders(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getData(ordersApi.getOrders);
+  }, []);
+  function getOrderByType(eventKey) {
+    getData(ordersApi.getOrders, { status: eventKey });
+  }
   return (
     <Container className="mt-4" fluid>
       <Row className="mb-3 py-2">
@@ -13,9 +31,13 @@ const OrdersDashboard = (props) => {
           style={{ border: "1px solid #ddd", borderRadius: 5 }}
           className="py-2 mx-3"
         >
-          <Nav variant="pills" defaultActiveKey="NOT PROCESSED">
+          <Nav
+            onSelect={getOrderByType}
+            variant="pills"
+            defaultActiveKey="NOT PROCESSED"
+          >
             <Nav.Item>
-              <Nav.Link className="text-dark" eventKey="NOT PROCESSED">
+              <Nav.Link className="text-dark" eventKey="PROCESSING">
                 NOT PROCESSED
               </Nav.Link>
             </Nav.Item>
@@ -36,7 +58,7 @@ const OrdersDashboard = (props) => {
         <Col>
           <div style={{ border: "1px solid #eee" }}>
             <Table hover>
-              <thead border={false} className="bg-primary">
+              <thead className="bg-primary">
                 <tr>
                   <th>ORDER ID</th>
                   <th>CUSTOMER NAME</th>
@@ -47,98 +69,31 @@ const OrdersDashboard = (props) => {
                   <th>ORDER DATE</th>
                 </tr>
               </thead>
-              <tbody>
+              {orders.length > 0 ? (
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order.id}>
+                      <td>
+                        <Link to={`${props.location.pathname}/${order.id}`}>
+                          {order.id.substring(0, 18).toUpperCase()}
+                        </Link>
+                      </td>
+                      <td>{order.user.name}</td>
+                      <td>{order.address.city}</td>
+                      <td>{order.paymentMode}</td>
+                      <td>{order.orderStatus}</td>
+                      <td>Rs. {order.totalAmount}/-</td>
+                      <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
                 <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
+                  <td colspan="100%">
+                    <h2 className="w-100 text-center display-4">No Orders</h2>
                   </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
                 </tr>
-                <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
-                  </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
-                  </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
-                  </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
-                  </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link
-                      to={`${props.location.pathname}/${"40f2d332-2ad6-4379"}`}
-                    >
-                      40f2d332-2ad6-4379
-                    </Link>
-                  </td>
-                  <td>Deepanshu Vangani</td>
-                  <td>Navi Mumbai</td>
-                  <td>COD</td>
-                  <td>PROCESSING</td>
-                  <td>Rs. 1200/-</td>
-                  <td>12/2/2020</td>
-                </tr>
-              </tbody>
+              )}
             </Table>
           </div>
         </Col>
