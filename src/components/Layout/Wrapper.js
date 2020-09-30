@@ -7,6 +7,7 @@ import DataContainer from "./DataContainer";
 import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
 import OrderDetails from "../content/Orders/OrderDetails";
+import ReturnsDashboard from "../content/Orders/Returns/ReturnsDashboard";
 
 const sideBarItems = [
   {
@@ -17,7 +18,17 @@ const sideBarItems = [
     subRoutes: [{ path: "/:id", component: OrderDetails }],
   },
   { title: "books", path: "/books", component: () => <h1>books</h1> },
-  { title: "returns", path: "/returns", component: () => <h1>returns</h1> },
+  { title: "returns", path: "/returns", component: ReturnsDashboard },
+  {
+    title: "book Requests",
+    path: "/requests",
+    component: () => <h1>not found books</h1>,
+  },
+  {
+    title: "Queries",
+    path: "/queries",
+    component: () => <h1>Queries</h1>,
+  },
 ];
 const Wrapper = (props) => {
   return (
