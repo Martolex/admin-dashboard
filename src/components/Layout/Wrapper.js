@@ -8,6 +8,7 @@ import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
 import OrderDetails from "../content/Orders/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
+import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 
 const sideBarItems = [
   {
@@ -22,7 +23,7 @@ const sideBarItems = [
   {
     title: "book Requests",
     path: "/requests",
-    component: () => <h1>not found books</h1>,
+    component: RequestDashboard,
   },
   {
     title: "Queries",

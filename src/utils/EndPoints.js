@@ -7,6 +7,8 @@ export const ordersApi = {
   orderDetails: (id) => `${adminApi}/orders/${id}`,
 };
 
+export const notFoundBooks = `${adminApi}/not-found-books`;
+
 export const returnsApi = {
   getReturnRequests: `${adminApi}/returns/requested`,
   getReturnDetails: (id) => `${adminApi}/returns/${id}`,
