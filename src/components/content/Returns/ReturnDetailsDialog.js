@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
-import { returnsApi } from "../../../../utils/EndPoints";
-import { get } from "../../../../utils/requests copy";
+import { returnsApi } from "../../../utils/EndPoints";
+import { get } from "../../../utils/requests";
 import moment from "moment";
-import { returnStates } from "../../../../utils/enums";
+import { returnStates } from "../../../utils/enums";
 const ReturnDetailsDialog = ({
   isOpen,
   handleClose,

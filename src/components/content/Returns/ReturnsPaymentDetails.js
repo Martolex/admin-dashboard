@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import { returnsApi } from "../../../../utils/EndPoints";
-import { get, post } from "../../../../utils/requests copy";
+import { returnsApi } from "../../../utils/EndPoints";
+import { get, post } from "../../../utils/requests";
 
 const ReturnsPaymentDetails = ({ isOpen, handleClose, itemId }) => {
   const [validated, setValidated] = useState(false);

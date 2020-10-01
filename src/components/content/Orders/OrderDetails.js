@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Table } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
 import { ordersApi } from "../../../utils/EndPoints";
-import { get } from "../../../utils/requests copy";
+import { get } from "../../../utils/requests";
 import moment from "moment";
 const OrderDetails = (props) => {
   const [order, setOrder] = useState(undefined);

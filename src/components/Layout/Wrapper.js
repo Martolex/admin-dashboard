@@ -7,7 +7,7 @@ import DataContainer from "./DataContainer";
 import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
 import OrderDetails from "../content/Orders/OrderDetails";
-import ReturnsDashboard from "../content/Orders/Returns/ReturnsDashboard";
+import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 
 const sideBarItems = [
   {
