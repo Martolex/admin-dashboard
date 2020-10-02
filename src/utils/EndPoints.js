@@ -15,3 +15,13 @@ export const returnsApi = {
   returnPaymentDetails: (id) =>
     `${adminApi}/returns/${id}/returnPaymentDetails`,
 };
+
+export const booksApi = {
+  martolexBooks: `${adminApi}/books/martolex`,
+  bookDetails: (id) => `${adminApi}/books/${id}`,
+};
+
+export const categoriesApi = {
+  getCategories: `${adminApi}/category`,
+  getSubCategories: (catId) => `${adminApi}/category/subCategories/${catId}`,
+};

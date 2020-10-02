@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Switch, Router } from "react-router";
 import { withRouter } from "react-router";
 import PrivateRoute from "../../utils/PrivateRoute";
+import BookDetails from "../content/Books/BookDetails";
 const DataContainer = ({ items }) => {
   const genPaths = (item) => {
     const Component = withRouter(item.component);
@@ -32,7 +33,14 @@ const DataContainer = ({ items }) => {
     []
   );
 
-  return <Switch>{routes}</Switch>;
+  return (
+    <Switch>
+      {routes}
+      <PrivateRoute path="/book/:id">
+        <BookDetails />
+      </PrivateRoute>
+    </Switch>
+  );
 };
 
 export default DataContainer;

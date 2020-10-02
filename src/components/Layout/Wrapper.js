@@ -9,6 +9,7 @@ import OrdersDashboard from "../content/Orders/OrdersDashboard";
 import OrderDetails from "../content/Orders/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
+import BooksDashboard from "../content/Books/BooksDashboard";
 
 const sideBarItems = [
   {
@@ -18,7 +19,7 @@ const sideBarItems = [
     component: OrdersDashboard,
     subRoutes: [{ path: "/:id", component: OrderDetails }],
   },
-  { title: "books", path: "/books", component: () => <h1>books</h1> },
+  { title: "books", path: "/books", component: BooksDashboard },
   { title: "returns", path: "/returns", component: ReturnsDashboard },
   {
     title: "book Requests",
@@ -33,11 +34,8 @@ const sideBarItems = [
 ];
 const Wrapper = (props) => {
   return (
-    <Container
-      style={{ display: "flex", flexDirection: "column", height: "100vh" }}
-      fluid
-    >
-      <Row className="bg-primary header">
+    <Container style={{ flexDirection: "column", height: "100vh" }} fluid>
+      <Row style={{ height: "8vh" }} className="bg-primary header">
         <Col className="text-center name" md={3}>
           Martolex Dashboard
         </Col>
@@ -45,12 +43,17 @@ const Wrapper = (props) => {
       <Row style={{ flex: "auto" }}>
         <Col
           md={2}
-          style={{ width: "200px" }}
+          style={{ width: "200px", height: "92vh" }}
           className=" sidebar bg-dark text-light"
         >
           <SideBar items={sideBarItems} />
         </Col>
-        <Col>
+        <Col
+          style={{
+            height: "92vh",
+            overflowY: "scroll",
+          }}
+        >
           <DataContainer items={sideBarItems} />
         </Col>
       </Row>
