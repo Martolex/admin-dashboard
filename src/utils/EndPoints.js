@@ -19,6 +19,12 @@ export const returnsApi = {
 export const booksApi = {
   martolexBooks: `${adminApi}/books/martolex`,
   bookDetails: (id) => `${adminApi}/books/${id}`,
+  thirdParty: {
+    approved: `${adminApi}/books/thirdParty/approved`,
+    notApproved: `${adminApi}/books/thirdParty/notApproved`,
+    pendingApproval: `${adminApi}/books/thirdParty/pendingApproval`,
+    changeApprovalState: `${adminApi}/books/thirdParty/approval`,
+  },
 };
 
 export const categoriesApi = {

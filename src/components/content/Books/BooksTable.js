@@ -20,7 +20,7 @@ const BooksTable = ({ books, thirdParty }) => {
                   <th>QTY</th>
                   <th>CATEGORY</th>
                   <th>SUBCATEGORY</th>
-                  {thirdParty && <th>Uploader</th>}
+                  {thirdParty && <th>UPLOADER</th>}
                 </tr>
               </thead>
 

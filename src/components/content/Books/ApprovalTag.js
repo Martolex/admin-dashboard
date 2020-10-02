@@ -1,13 +1,28 @@
 import React from "react";
 
-const ApprovalTag = ({ status }) => (
-  <div className="approval-container w-100">
-    {!status ? (
-      <div className="approval-tag text-light bg-danger">NOT APPROVED</div>
-    ) : (
-      <div className="approval-tag text-light bg-success">APPROVED</div>
-    )}
-  </div>
-);
+const ApprovalTag = ({ status }) => {
+  function returnTag() {
+    switch (status) {
+      case 1:
+        return (
+          <div className="approval-tag text-light bg-success">APPROVED</div>
+        );
+
+      case -1:
+        return (
+          <div className="approval-tag text-light bg-danger">NOT APPROVED</div>
+        );
+      case 0:
+        return (
+          <div className="approval-tag text-dark bg-warning">
+            APPROVAL PENDING
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
+  return <div className="approval-container w-100">{returnTag()}</div>;
+};
 
 export default ApprovalTag;
