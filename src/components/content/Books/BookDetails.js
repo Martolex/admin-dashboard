@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Carousel, Col, Container, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Carousel,
+  Col,
+  Container,
+  Form,
+  Row,
+  Table,
+} from "react-bootstrap";
 import { booksApi } from "../../../utils/EndPoints";
-import { deleteCall, get, put } from "../../../utils/requests";
+import { deleteCall, get, post, put } from "../../../utils/requests";
 import "../../../styles/Content/Book/bookDetails.scss";
 import ApprovalTag from "./ApprovalTag";
 import EditableField from "./EditableField";
@@ -9,6 +17,10 @@ import { useHistory } from "react-router";
 const BookDetails = (props) => {
   const [book, setBook] = useState(undefined);
   const [edited, isEdited] = useState(false);
+  const [isNotApproved, setNotApproved] = useState({
+    status: false,
+    reason: "",
+  });
   const history = useHistory();
   async function getData(api, params, setter) {
     console.log(api);
@@ -65,6 +77,33 @@ const BookDetails = (props) => {
       try {
         const [data] = await put(booksApi.martolexBooks, true, body);
         window.alert(data.message);
+        history.go(0);
+      } catch (err) {
+        alert(err);
+      }
+    }
+  }
+
+  async function sendApproval(isApproved, reason) {
+    const confirmation = window.confirm(
+      "are you sure you want to change the approval status ?"
+    );
+    if (confirmation) {
+      let body = {
+        status: isApproved ? "approved" : "not_approved",
+        bookId: props.match.params.id,
+      };
+      if (!isApproved) {
+        body.reason = reason;
+      }
+
+      try {
+        const [res] = await post(
+          booksApi.thirdParty.changeApprovalState,
+          true,
+          body
+        );
+        alert(res.message);
         history.go(0);
       } catch (err) {
         alert(err);
@@ -201,193 +240,269 @@ const BookDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
-          <h4>Pricing</h4>
-          <hr />
+        <Col md={6}>
+          <Row>
+            <Col>
+              <h4>Pricing</h4>
+              <hr />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Table bordered>
+                <tr>
+                  <th>BUY BACK ENABLED </th>
+                  <td width="0%">
+                    <EditableField
+                      as="select"
+                      editable={soldByMartolex}
+                      options={[
+                        { value: 1, label: "YES" },
+                        { value: 0, label: "NO" },
+                      ]}
+                      edited={isEdited}
+                      onChange={(value) =>
+                        setBook((prevState) => ({
+                          ...prevState,
+                          isBuyBackEnabled: value == 1,
+                        }))
+                      }
+                      value={book.isBuyBackEnabled ? "YES" : "NO"}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>MRP </th>
+                  <td>
+                    <EditableField
+                      as="number"
+                      min={1}
+                      edited={isEdited}
+                      editable={soldByMartolex}
+                      onChange={(value) =>
+                        setBook((prevState) => ({
+                          ...prevState,
+                          rent: { ...prevState.rent, mrp: value },
+                        }))
+                      }
+                      value={book.rent.mrp}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>SELLING PRICE </th>
+                  <td>
+                    <EditableField
+                      as="number"
+                      min={1}
+                      edited={isEdited}
+                      editable={soldByMartolex}
+                      onChange={(value) =>
+                        setBook((prevState) => ({
+                          ...prevState,
+                          rent: { ...prevState.rent, sellPrice: value },
+                        }))
+                      }
+                      value={book.rent.sellPrice}
+                    />
+                  </td>
+                </tr>
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th> DEPOSIT</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        edited={isEdited}
+                        min={1}
+                        editable={soldByMartolex}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, deposit: value },
+                          }))
+                        }
+                        value={book.rent.deposit}
+                      />
+                    </td>
+                  </tr>
+                )}
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th>ONE MONTH</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        editable={soldByMartolex}
+                        min={1}
+                        edited={isEdited}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, oneMonth: value },
+                          }))
+                        }
+                        value={book.rent.oneMonth}
+                      />
+                    </td>
+                  </tr>
+                )}
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th> THREE MONTH</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        min={1}
+                        editable={soldByMartolex}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, threemonth: value },
+                          }))
+                        }
+                        edited={isEdited}
+                        value={book.rent.threeMonth}
+                      />
+                    </td>
+                  </tr>
+                )}
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th> SIX MONTH</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        editable={soldByMartolex}
+                        min={1}
+                        edited={isEdited}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, sixMonth: value },
+                          }))
+                        }
+                        value={book.rent.sixMonth}
+                      />
+                    </td>
+                  </tr>
+                )}
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th> NINE MONTH</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        edited={isEdited}
+                        editable={soldByMartolex}
+                        min={1}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, nineMonth: value },
+                          }))
+                        }
+                        value={book.rent.nineMonth}
+                      />
+                    </td>
+                  </tr>
+                )}
+                {book.isBuyBackEnabled && (
+                  <tr>
+                    <th>TWELVE MONTH</th>
+                    <td>
+                      <EditableField
+                        as="number"
+                        edited={isEdited}
+                        editable={soldByMartolex}
+                        min={1}
+                        onChange={(value) =>
+                          setBook((prevState) => ({
+                            ...prevState,
+                            rent: { ...prevState.rent, twelveMonth: value },
+                          }))
+                        }
+                        value={book.rent.twelveMonth}
+                      />
+                    </td>
+                  </tr>
+                )}
+              </Table>
+            </Col>
+          </Row>
         </Col>
-      </Row>
-      <Row>
-        <Col md={5}>
-          <Table bordered>
-            <tr>
-              <th>BUY BACK ENABLED </th>
-              <td width="0%">
-                <EditableField
-                  as="select"
-                  editable={soldByMartolex}
-                  options={[
-                    { value: 1, label: "YES" },
-                    { value: 0, label: "NO" },
-                  ]}
-                  edited={isEdited}
-                  onChange={(value) =>
-                    setBook((prevState) => ({
-                      ...prevState,
-                      isBuyBackEnabled: value == 1,
-                    }))
-                  }
-                  value={book.isBuyBackEnabled ? "YES" : "NO"}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>MRP </th>
-              <td>
-                <EditableField
-                  as="number"
-                  min={1}
-                  edited={isEdited}
-                  editable={soldByMartolex}
-                  onChange={(value) =>
-                    setBook((prevState) => ({
-                      ...prevState,
-                      rent: { ...prevState.rent, mrp: value },
-                    }))
-                  }
-                  value={book.rent.mrp}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>SELLING PRICE </th>
-              <td>
-                <EditableField
-                  as="number"
-                  min={1}
-                  edited={isEdited}
-                  editable={soldByMartolex}
-                  onChange={(value) =>
-                    setBook((prevState) => ({
-                      ...prevState,
-                      rent: { ...prevState.rent, sellPrice: value },
-                    }))
-                  }
-                  value={book.rent.sellPrice}
-                />
-              </td>
-            </tr>
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th> DEPOSIT</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    edited={isEdited}
-                    min={1}
-                    editable={soldByMartolex}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, deposit: value },
-                      }))
-                    }
-                    value={book.rent.deposit}
-                  />
-                </td>
-              </tr>
-            )}
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th>ONE MONTH</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    editable={soldByMartolex}
-                    min={1}
-                    edited={isEdited}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, oneMonth: value },
-                      }))
-                    }
-                    value={book.rent.oneMonth}
-                  />
-                </td>
-              </tr>
-            )}
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th> THREE MONTH</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    min={1}
-                    editable={soldByMartolex}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, threemonth: value },
-                      }))
-                    }
-                    edited={isEdited}
-                    value={book.rent.threeMonth}
-                  />
-                </td>
-              </tr>
-            )}
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th> SIX MONTH</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    editable={soldByMartolex}
-                    min={1}
-                    edited={isEdited}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, sixMonth: value },
-                      }))
-                    }
-                    value={book.rent.sixMonth}
-                  />
-                </td>
-              </tr>
-            )}
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th> NINE MONTH</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    edited={isEdited}
-                    editable={soldByMartolex}
-                    min={1}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, nineMonth: value },
-                      }))
-                    }
-                    value={book.rent.nineMonth}
-                  />
-                </td>
-              </tr>
-            )}
-            {book.isBuyBackEnabled && (
-              <tr>
-                <th>TWELVE MONTH</th>
-                <td>
-                  <EditableField
-                    as="number"
-                    edited={isEdited}
-                    editable={soldByMartolex}
-                    min={1}
-                    onChange={(value) =>
-                      setBook((prevState) => ({
-                        ...prevState,
-                        rent: { ...prevState.rent, twelveMonth: value },
-                      }))
-                    }
-                    value={book.rent.twelveMonth}
-                  />
-                </td>
-              </tr>
-            )}
-          </Table>
-        </Col>
+        {!soldByMartolex && book.isApproved == 0 && (
+          <Col>
+            <Row>
+              <Col>
+                <Row>
+                  <Col>
+                    <h4>Approval</h4>
+                    <hr />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Container fluid>
+                <Row>
+                  <Col>
+                    <Button
+                      onClick={() => sendApproval(true)}
+                      block
+                      variant="success"
+                    >
+                      APPROVE
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      onClick={() =>
+                        setNotApproved({ ...isNotApproved, status: true })
+                      }
+                      block
+                      variant="danger"
+                    >
+                      REJECT
+                    </Button>
+                  </Col>
+                </Row>
+                {isNotApproved.status && (
+                  <Row className="mt-2">
+                    <Col md={12}>
+                      <Form.Group controlId="reason">
+                        <Form.Label>Reason for Rejection</Form.Label>
+                        <Form.Control
+                          type="text"
+                          as="textarea"
+                          rows={5}
+                          required
+                          value={isNotApproved.reason}
+                          onChange={(event) =>
+                            setNotApproved({
+                              ...isNotApproved,
+                              reason: event.target.value,
+                            })
+                          }
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col className="text-center">
+                      <Button
+                        onClick={() =>
+                          sendApproval(false, isNotApproved.reason)
+                        }
+                        variant="danger"
+                      >
+                        SUBMIT
+                      </Button>
+                    </Col>
+                  </Row>
+                )}
+              </Container>
+            </Row>
+          </Col>
+        )}
       </Row>
       <Row
         className="mb-2 p-2 text-right"
