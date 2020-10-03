@@ -100,33 +100,51 @@ const ReturnDetailsDialog = ({
                           .format("DD-MM-YYYY")}
                       </td>
                     </tr>
-                    {true && (
+                    {returnDetails.isReturned === returnStates.RETURNED && (
                       <tr>
                         <th>RETURN TRANSACTION DETAILS</th>
                         <td>
                           <Table>
-                            <tr>
-                              <th>BUYER</th>
-                              <td>
-                                <p className="m-0">
-                                  <b>Payment Mode </b> : google pay
-                                </p>
-                                <p className="m-0">
-                                  <b>Payment Ref ID</b> : dfdf4545eft55
-                                </p>
-                              </td>
-                            </tr>
-                            <tr>
+                            {returnDetails.payments.map((payment) => (
+                              <tr>
+                                <th>{payment.receiverType.toUpperCase()}</th>
+                                <td>
+                                  <p className="m-0">
+                                    <b>Paid To </b> :{" "}
+                                    {payment.paidTo.isAdmin
+                                      ? "Martolex " +
+                                        "(" +
+                                        payment.paidTo.name +
+                                        ")"
+                                      : payment.paidTo.name}
+                                  </p>
+                                  <p className="m-0">
+                                    <b>Payment Mode </b> : {payment.paymentMode}
+                                  </p>
+                                  <p className="m-0">
+                                    <b>Payment Ref ID</b> :{" "}
+                                    {payment.paymentRefId}
+                                  </p>
+                                  <p className="m-0">
+                                    <b>Amount</b> : Rs.{payment.amount}/-
+                                  </p>
+                                </td>
+                              </tr>
+                            ))}
+                            {/* <tr>
                               <th>SELLER</th>
                               <td>
                                 <p className="m-0">
+                                  <b>Paid To: </b> : {"Deepanshu"}
+                                </p>
+                                <p className="m-0">
                                   <b>Payment Mode </b> : google pay
                                 </p>
                                 <p className="m-0">
                                   <b>Payment Ref ID</b> : dfdf4545eft55
                                 </p>
                               </td>
-                            </tr>
+                            </tr> */}
                           </Table>
                         </td>
                       </tr>

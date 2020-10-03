@@ -34,7 +34,7 @@ const OrdersDashboard = (props) => {
           <Nav
             onSelect={getOrderByType}
             variant="pills"
-            defaultActiveKey="NOT PROCESSED"
+            defaultActiveKey="PROCESSING"
           >
             <Nav.Item>
               <Nav.Link className="text-dark" eventKey="PROCESSING">

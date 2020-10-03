@@ -54,9 +54,15 @@ const ReturnsDashboard = (props) => {
           className="py-2 mx-3"
         >
           <Nav
-            onSelect={() => {}}
+            onSelect={(eventKey) => {
+              if (eventKey == "PROCESSING") {
+                getData(returnsApi.getReturnRequests);
+              } else {
+                getData(returnsApi.getProcessedReturnRequests);
+              }
+            }}
             variant="pills"
-            defaultActiveKey="NOT PROCESSED"
+            defaultActiveKey="PROCESSING"
           >
             <Nav.Item>
               <Nav.Link className="text-dark" eventKey="PROCESSING">
@@ -64,7 +70,7 @@ const ReturnsDashboard = (props) => {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="text-dark" eventKey="INTRANSIT">
+              <Nav.Link className="text-dark" eventKey="PROCESSED">
                 OLD REQUESTS
               </Nav.Link>
             </Nav.Item>

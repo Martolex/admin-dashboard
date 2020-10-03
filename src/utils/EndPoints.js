@@ -11,6 +11,7 @@ export const notFoundBooks = `${adminApi}/not-found-books`;
 
 export const returnsApi = {
   getReturnRequests: `${adminApi}/returns/requested`,
+  getProcessedReturnRequests: `${adminApi}/returns/processed`,
   getReturnDetails: (id) => `${adminApi}/returns/${id}`,
   returnPaymentDetails: (id) =>
     `${adminApi}/returns/${id}/returnPaymentDetails`,
