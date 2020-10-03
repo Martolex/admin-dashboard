@@ -10,6 +10,7 @@ import OrderDetails from "../content/Orders/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
+import SubscribersDashboard from "../content/subscribersDashboard";
 
 const sideBarItems = [
   {
@@ -27,9 +28,14 @@ const sideBarItems = [
     component: RequestDashboard,
   },
   {
-    title: "Queries",
-    path: "/queries",
-    component: () => <h1>Queries</h1>,
+    title: "Reviews",
+    path: "/reviews",
+    component: () => <h1>Reviews</h1>,
+  },
+  {
+    title: "subscribers",
+    path: "/subscribers",
+    component: SubscribersDashboard,
   },
 ];
 const Wrapper = (props) => {
