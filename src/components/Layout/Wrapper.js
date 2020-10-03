@@ -11,6 +11,7 @@ import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
 import SubscribersDashboard from "../content/subscribersDashboard";
+import ReviewsDashboard from "../content/reviews/reviewsDashboard";
 
 const sideBarItems = [
   {
@@ -30,7 +31,7 @@ const sideBarItems = [
   {
     title: "Reviews",
     path: "/reviews",
-    component: () => <h1>Reviews</h1>,
+    component: ReviewsDashboard,
   },
   {
     title: "subscribers",

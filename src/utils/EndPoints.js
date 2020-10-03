@@ -36,3 +36,8 @@ export const categoriesApi = {
 export const subscribersApi = {
   getSubscribers: `${adminApi}/newsletter/getAllSubscribers`,
 };
+
+export const reviewsApi = {
+  getReviews: `${adminApi}/reviews/latest`,
+  delete: `${adminApi}/reviews/delete`,
+};
