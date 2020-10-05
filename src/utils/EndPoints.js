@@ -41,3 +41,5 @@ export const reviewsApi = {
   getReviews: `${adminApi}/reviews/latest`,
   delete: `${adminApi}/reviews/delete`,
 };
+
+export const loginApi = `${backendApi}auth/adminSignIn`;

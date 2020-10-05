@@ -1,12 +1,12 @@
-// import { store } from "../redux";
+import { store } from "../redux";
 import querystring from "querystring";
-const store = {
-  getState: () => ({
-    user: {
-      token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2MGI3YzRkLWZjZGItNDVkYi1iM2FhLTU4NDc2NTQ1N2ZjNiIsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNjAxMzc0MjEwfQ.mAfWUgDwTBAP2jzLcAqaAX-fAO_mA6BjiIPxwWewCLg`,
-    },
-  }),
-};
+// const store = {
+//   getState: () => ({
+//     user: {
+//       token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2MGI3YzRkLWZjZGItNDVkYi1iM2FhLTU4NDc2NTQ1N2ZjNiIsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNjAxMzc0MjEwfQ.mAfWUgDwTBAP2jzLcAqaAX-fAO_mA6BjiIPxwWewCLg`,
+//     },
+//   }),
+// };
 export const get = (api, isAuthorized = true, params = {}, headers = {}) => {
   return new Promise((resolve, reject) => {
     const allHeaders = {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -8,8 +8,12 @@ import {
   FormGroup,
   Row,
 } from "react-bootstrap";
+import { connect } from "react-redux";
+import { useHistory } from "react-router";
+import { loginUser } from "../../../redux/actions/authActions";
 
 const Login = (props) => {
+  const history = useHistory();
   const [creds, setCreds] = useState({ email: "", password: "" });
   const [validated, setValidated] = useState(false);
   const handleSubmit = (event) => {
@@ -20,13 +24,19 @@ const Login = (props) => {
       setValidated(true);
       event.stopPropagation();
     } else {
-      // props.login(email, password);
+      props.login(creds.email, creds.password);
 
       if (props.auth) {
         window.location.href = "/";
       }
     }
   };
+  useEffect(() => {
+    if (props.auth) {
+      console.log("login success");
+      history.push("/");
+    }
+  }, [props.auth]);
   return (
     <Container style={{ height: "95%" }} className="mt-4 mb-0" fluid>
       <Row className="justify-content-center align-items-center h-100">
@@ -77,6 +87,11 @@ const Login = (props) => {
                 </Row>
                 <Row>
                   <Col>
+                    <span className="text-danger">{props.error}</span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
                     <Button type="submit" size="lg" block variant="info">
                       LOGIN
                     </Button>
@@ -91,4 +106,15 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (email, password) => {
+    dispatch(loginUser(email, password));
+  },
+});
+
+const mapStateToProps = (state) => ({
+  isLoading: state.user.isLoading,
+  error: state.user.error,
+  auth: state.user.auth,
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
