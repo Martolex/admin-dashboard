@@ -1,8 +1,9 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { Switch, Router } from "react-router";
+import { Switch, Router, Route, Redirect } from "react-router";
 import { withRouter } from "react-router";
 import PrivateRoute from "../../utils/PrivateRoute";
+import Login from "../content/Auth/Login";
 import BookDetails from "../content/Books/BookDetails";
 const DataContainer = ({ items }) => {
   const genPaths = (item) => {
@@ -36,6 +37,8 @@ const DataContainer = ({ items }) => {
   return (
     <Switch>
       {routes}
+      <Route exact path="/" component={() => <Redirect to="/orders" />} />
+      <Route exact path="/login" component={Login} />
       <PrivateRoute path="/book/:id">
         <BookDetails />
       </PrivateRoute>
