@@ -42,4 +42,6 @@ export const reviewsApi = {
   delete: `${adminApi}/reviews/delete`,
 };
 
+export const UsersApi = { getUsers: `${adminApi}/users` };
+
 export const loginApi = `${backendApi}auth/adminSignIn`;
