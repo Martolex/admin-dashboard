@@ -12,31 +12,67 @@ import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
 import SubscribersDashboard from "../content/subscribersDashboard";
 import ReviewsDashboard from "../content/reviews/reviewsDashboard";
-
+import { BiPackage } from "react-icons/bi";
+import { FaBook, FaUser } from "react-icons/fa";
+import { GiReturnArrow } from "react-icons/gi";
+import { GoRequestChanges } from "react-icons/go";
+import {
+  MdRateReview,
+  MdEmail,
+  MdPeople,
+  MdShoppingCart,
+} from "react-icons/md";
+import UsersDashboard from "../content/Users/UsersDashboard";
 const sideBarItems = [
   {
     title: "orders",
     path: "/orders",
     exact: true,
+    icon: { component: BiPackage, size: 25 },
     component: OrdersDashboard,
     subRoutes: [{ path: "/:id", component: OrderDetails }],
   },
-  { title: "books", path: "/books", component: BooksDashboard },
-  { title: "returns", path: "/returns", component: ReturnsDashboard },
+  {
+    title: "books",
+    icon: { component: FaBook, size: 22 },
+    path: "/books",
+    component: BooksDashboard,
+  },
+  {
+    title: "returns",
+    icon: { component: GiReturnArrow, size: 22 },
+    path: "/returns",
+    component: ReturnsDashboard,
+  },
   {
     title: "book Requests",
     path: "/requests",
     component: RequestDashboard,
+    icon: { component: GoRequestChanges, size: 22 },
   },
   {
     title: "Reviews",
     path: "/reviews",
+    icon: { component: MdRateReview },
     component: ReviewsDashboard,
   },
   {
     title: "subscribers",
     path: "/subscribers",
+    icon: { component: MdEmail },
     component: SubscribersDashboard,
+  },
+  {
+    title: "users",
+    path: "/users",
+    icon: { component: MdPeople },
+    component: UsersDashboard,
+  },
+  {
+    title: "user carts",
+    path: "/carts",
+    icon: { component: MdShoppingCart },
+    component: () => <h1>users</h1>,
   },
 ];
 const Wrapper = (props) => {
