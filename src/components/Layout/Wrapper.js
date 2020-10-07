@@ -23,6 +23,7 @@ import {
   MdShoppingCart,
 } from "react-icons/md";
 import UsersDashboard from "../content/Users/UsersDashboard";
+import UserCartsDashboard from "../content/Users/UserCarts";
 const sideBarItems = [
   {
     title: "orders",
@@ -72,7 +73,7 @@ const sideBarItems = [
     title: "user carts",
     path: "/carts",
     icon: { component: MdShoppingCart },
-    component: () => <h1>users</h1>,
+    component: UserCartsDashboard,
   },
 ];
 const Wrapper = (props) => {

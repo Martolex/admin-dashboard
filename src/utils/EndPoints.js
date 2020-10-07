@@ -42,6 +42,10 @@ export const reviewsApi = {
   delete: `${adminApi}/reviews/delete`,
 };
 
-export const UsersApi = { getUsers: `${adminApi}/users` };
+export const UsersApi = {
+  getUsers: `${adminApi}/users`,
+  cartStats: `${adminApi}/users/cartStats`,
+  getUserCart: (id) => `${adminApi}/users/${id}/cart`,
+};
 
 export const loginApi = `${backendApi}auth/adminSignIn`;

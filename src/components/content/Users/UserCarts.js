@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { get } from "../../../utils/requests";
 import { UsersApi } from "../../../utils/EndPoints";
+import { MdRemoveRedEye } from "react-icons/md";
+import CartDialog from "./CartDialog";
 
-const UsersDashboard = (props) => {
+const UserCartsDashboard = (props) => {
   const [users, setUsers] = useState([]);
-  const [sellerSwitch, sellerOnly] = useState(false);
+  const [cartDialogProps, setCartDialog] = useState({
+    isOpen: false,
+    userId: "",
+  });
   async function getData(api, params) {
     console.log(api);
     try {
@@ -17,25 +22,20 @@ const UsersDashboard = (props) => {
     }
   }
   React.useEffect(() => {
-    getData(UsersApi.getUsers, { isSeller: sellerSwitch });
-  }, [sellerSwitch]);
+    getData(UsersApi.cartStats);
+  }, []);
+
+  function openCartDetails(userId) {
+    setCartDialog({ isOpen: true, userId });
+  }
   return (
     <Container className="mt-4" fluid>
-      <Row>
-        <Col>
-          <Form.Check
-            type="switch"
-            checked={sellerSwitch}
-            id="custom-switch"
-            onChange={(event) => {
-              sellerOnly(!sellerSwitch);
-            }}
-            label="Sellers only"
-          />
-        </Col>
-      </Row>
+      <CartDialog
+        {...cartDialogProps}
+        handleClose={() => setCartDialog({ isOpen: false })}
+      />
       <Row className="justify-content-center">
-        <Col>
+        <Col md={9}>
           <div style={{ border: "1px solid #eee" }}>
             <Table hover>
               <thead className="bg-primary">
@@ -43,8 +43,8 @@ const UsersDashboard = (props) => {
                   <th>NAME</th>
                   <th>EMAIL</th>
                   <th>MOBILE</th>
-                  <th>COLLEGE</th>
-                  <th>SELLER</th>
+                  <th>CART COUNT </th>
+                  <th>ACTIONS</th>
                 </tr>
               </thead>
               {users.length > 0 ? (
@@ -54,15 +54,26 @@ const UsersDashboard = (props) => {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.phoneNo}</td>
-                      <td>{user.college || "not available"}</td>
-                      <td>{user.isSeller ? "YES" : "NO"}</td>
+                      <td>{user.itemCount}</td>
+                      <td>
+                        <Button>
+                          <MdRemoveRedEye
+                            onClick={() => {
+                              openCartDetails(user.id);
+                            }}
+                            size={30}
+                          />
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               ) : (
                 <tr>
                   <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Users</h2>
+                    <h2 className="w-100 text-center display-4">
+                      No Users have items in thier cart
+                    </h2>
                   </td>
                 </tr>
               )}
@@ -89,4 +100,4 @@ const UsersDashboard = (props) => {
   );
 };
 
-export default UsersDashboard;
+export default UserCartsDashboard;
