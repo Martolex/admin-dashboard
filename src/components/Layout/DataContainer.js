@@ -46,4 +46,4 @@ const DataContainer = ({ items }) => {
   );
 };
 
-export default DataContainer;
+export default React.memo(DataContainer);

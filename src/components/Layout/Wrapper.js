@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { Container, Col, Row, ListGroup } from "react-bootstrap";
@@ -21,6 +21,7 @@ import {
   MdEmail,
   MdPeople,
   MdShoppingCart,
+  MdMenu,
 } from "react-icons/md";
 import UsersDashboard from "../content/Users/UsersDashboard";
 import UserCartsDashboard from "../content/Users/UserCarts";
@@ -77,26 +78,52 @@ const sideBarItems = [
   },
 ];
 const Wrapper = (props) => {
+  const [menuExpanded, setMenuExpanded] = useState(false);
   return (
-    <Container style={{ flexDirection: "column", height: "100vh" }} fluid>
+    <Container
+      style={{
+        flexDirection: "column",
+        height: "100vh",
+        transition: "500ms ease all",
+      }}
+      fluid
+    >
       <Row style={{ height: "8vh" }} className="bg-primary header">
-        <Col className="text-center name" md={3}>
+        <Col
+          className="d-flex align-items-center d-md-none text-center name"
+          md={1}
+          xs={2}
+        >
+          <MdMenu size={30} onClick={() => setMenuExpanded(!menuExpanded)} />
+        </Col>
+        <Col className="text-center name" md={3} xs={10}>
           Martolex Dashboard
         </Col>
       </Row>
       <Row style={{ flex: "auto" }}>
         <Col
           md={2}
-          style={{ width: "200px", height: "92vh" }}
+          xs={menuExpanded ? 7 : 2}
+          style={{
+            width: "200px",
+            height: "92vh",
+            position: menuExpanded ? "absolute" : "relative",
+            zIndex: 10,
+          }}
           className=" sidebar bg-dark text-light"
         >
-          <SideBar items={sideBarItems} />
+          <SideBar
+            items={sideBarItems}
+            isOpen={menuExpanded}
+            closeMenu={() => setMenuExpanded(false)}
+          />
         </Col>
         <Col
           style={{
             height: "92vh",
             overflowY: "scroll",
           }}
+          xs={{ offset: menuExpanded ? 2 : 0 }}
         >
           <DataContainer items={sideBarItems} />
         </Col>

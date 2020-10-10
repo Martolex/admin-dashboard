@@ -8,9 +8,9 @@ const BooksTable = ({ books, thirdParty }) => {
   return (
     <div>
       <Row>
-        <Col>
+        <Col className="">
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
+            <Table hover responsive>
               <thead className="bg-primary">
                 <tr>
                   <th>BOOK ID</th>

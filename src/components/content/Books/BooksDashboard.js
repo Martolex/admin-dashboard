@@ -18,7 +18,7 @@ const BooksDashboard = (props) => {
       <Row className="mb-3 py-2">
         <Col
           style={{ border: "1px solid #ddd", borderRadius: 5 }}
-          className="py-2 mx-3"
+          className="py-2 mx-md-3"
         >
           <Nav
             onSelect={(eventkey) => {

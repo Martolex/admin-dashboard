@@ -80,7 +80,7 @@ const ReturnsDashboard = (props) => {
       <Row>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
+            <Table hover responsive>
               <thead className="bg-primary">
                 <tr>
                   <th>ORDER ID</th>
