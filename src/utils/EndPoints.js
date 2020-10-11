@@ -48,4 +48,13 @@ export const UsersApi = {
   getUserCart: (id) => `${adminApi}/users/${id}/cart`,
 };
 
+export const collegeApi = `${adminApi}/colleges`;
+
+export const ambassadorsApi = {
+  getAmbassadors: `${adminApi}/ambassadors`,
+  isValidCandidate: `${adminApi}/ambassadors/isValidCandidate`,
+  createAmbassador: `${adminApi}/ambassadors/new`,
+  deactivate: `${adminApi}/ambassadors/deactivate`,
+};
+
 export const loginApi = `${backendApi}auth/adminSignIn`;

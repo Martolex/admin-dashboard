@@ -14,7 +14,7 @@ import SubscribersDashboard from "../content/subscribersDashboard";
 import ReviewsDashboard from "../content/reviews/reviewsDashboard";
 import { BiPackage } from "react-icons/bi";
 import { FaBook, FaUser } from "react-icons/fa";
-import { GiReturnArrow } from "react-icons/gi";
+import { GiGraduateCap, GiReturnArrow } from "react-icons/gi";
 import { GoRequestChanges } from "react-icons/go";
 import {
   MdRateReview,
@@ -25,6 +25,7 @@ import {
 } from "react-icons/md";
 import UsersDashboard from "../content/Users/UsersDashboard";
 import UserCartsDashboard from "../content/Users/UserCarts";
+import AmbassadorsDashboard from "../content/ambassadors/AmbassadorsDashboard";
 const sideBarItems = [
   {
     title: "orders",
@@ -63,6 +64,12 @@ const sideBarItems = [
     path: "/subscribers",
     icon: { component: MdEmail },
     component: SubscribersDashboard,
+  },
+  {
+    title: "ambassadors",
+    path: "/ambassadors",
+    icon: { component: GiGraduateCap },
+    component: AmbassadorsDashboard,
   },
   {
     title: "users",
