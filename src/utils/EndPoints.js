@@ -55,6 +55,7 @@ export const ambassadorsApi = {
   isValidCandidate: `${adminApi}/ambassadors/isValidCandidate`,
   createAmbassador: `${adminApi}/ambassadors/new`,
   deactivate: `${adminApi}/ambassadors/deactivate`,
+  stats: (ambassadorId) => `${adminApi}/ambassadors/${ambassadorId}/stats`,
 };
 
 export const loginApi = `${backendApi}auth/adminSignIn`;
