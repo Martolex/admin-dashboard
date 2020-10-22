@@ -24,7 +24,7 @@ const AmbassadorStatsDialog = (props) => {
   return (
     <Modal centered size="lg" show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Review</Modal.Title>
+        <Modal.Title>STATS</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {stats && (
@@ -71,16 +71,7 @@ const AmbassadorStatsDialog = (props) => {
           </Container>
         )}
       </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant="info"
-          onClick={() => {
-            props.handleClose();
-          }}
-        >
-          CLOSE
-        </Button>
-      </Modal.Footer>
+      
     </Modal>
   );
 };
