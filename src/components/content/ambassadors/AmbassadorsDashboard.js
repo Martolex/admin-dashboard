@@ -7,10 +7,16 @@ import { get, post } from "../../../utils/requests";
 import _ from "lodash";
 import AddNewAmbassadorDialog from "./AddNewAmbassadorDialog";
 import { FaTrash } from "react-icons/fa";
+import AmbassadorStatsDialog from "./AmbassadorStatsDialog";
 const AmbassadorsDashboard = (props) => {
   const [ambassadors, setAmbassadors] = useState([]);
   const [college, setCollege] = useState("");
   const [ambassadorDialogOpen, setAmbassadorDialogOpen] = useState(false);
+  const [ambassadorStatsDialogOpen, setAmbassadorStatsDialogOpen] = useState(
+    false
+  );
+  const [currAmbassadorId, setCurrAmbassador] = useState(undefined);
+
   async function getData(api, params) {
     console.log(params);
     try {
@@ -47,6 +53,12 @@ const AmbassadorsDashboard = (props) => {
     }, 300),
     []
   );
+  function showAmbassadorStats(id) {
+    return () => {
+      setAmbassadorStatsDialogOpen(true);
+      setCurrAmbassador(id);
+    };
+  }
   async function deactivateAmbassador(id) {
     try {
       const [res] = await post(ambassadorsApi.deactivate, true, {
@@ -63,6 +75,11 @@ const AmbassadorsDashboard = (props) => {
         show={ambassadorDialogOpen}
         reload={loadData}
         handleClose={() => setAmbassadorDialogOpen(false)}
+      />
+      <AmbassadorStatsDialog
+        show={ambassadorStatsDialogOpen}
+        ambassadorId={currAmbassadorId}
+        handleClose={() => setAmbassadorStatsDialogOpen(false)}
       />
       <Row className="mb-3">
         <Col>
@@ -114,7 +131,13 @@ const AmbassadorsDashboard = (props) => {
               {ambassadors.length > 0 ? (
                 <tbody>
                   {ambassadors.map((ambassador) => (
-                    <tr key={ambassador.id}>
+                    <tr
+               
+                            onClick={showAmbassadorStats(ambassador.id)}
+         
+                                  key={ambassador.id}
+                    
+                    >
                       <td>{ambassador.id.substring(0, 18)}</td>
                       <td>{ambassador.user.name}</td>
                       <td>{ambassador.user.email}</td>
