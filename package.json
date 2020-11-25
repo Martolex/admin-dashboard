@@ -28,6 +28,7 @@
     "start": "set PORT=4000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "npm run build && aws s3 sync build/ s3://testadmin.martolex.com",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
