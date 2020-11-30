@@ -11,7 +11,7 @@ const DataContainer = ({ items }) => {
     const routes = [];
 
     routes.push(
-      <PrivateRoute exact={item.exact} path={item.path}>
+      <PrivateRoute key={item.title} exact={item.exact} path={item.path}>
         <Component />
       </PrivateRoute>
     );

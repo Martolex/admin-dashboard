@@ -7,7 +7,7 @@ const SideBar = ({ items, ...props }) => {
   return (
     <ListGroup variant="flush" className="bg-dark sidebar-container">
       {items.map((item) => (
-        <ListGroup.Item className="sidebar-item">
+        <ListGroup.Item key={item.title} className="sidebar-item">
           <Link className="btn-link" onClick={props.closeMenu} to={item.path}>
             <Row
               className={`item ${
