@@ -12,6 +12,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.REACT_DEPLOY_AWS_ACCESS_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_DEPLOY_AWS_SECRET }}
 
     strategy:
       matrix:
@@ -19,10 +22,6 @@ jobs:
 
     steps:
       - name: Use Node.js ${{ matrix.node-version }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.REACT_DEPLOY_AWS_ACCESS_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_DEPLOY_AWS_SECRET }}
-
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -31,7 +30,8 @@ jobs:
       - run: npm test
       - run: npm run build --if-present
 
-      - uses: reggionick/s3-deploy@v3
+      - name: Deploy
+        uses: reggionick/s3-deploy@v3
         with:
           folder: build
           bucket: ${{ secrets.S3_BUCKET }}
