@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm i
@@ -30,16 +30,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      uses: reggionick/s3-deploy@v3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.REACT_DEPLOY_AWS_ACCESS_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_DEPLOY_AWS_SECRET }}
-      with:
-        folder: build
-        bucket: ${{ secrets.S3_BUCKET }}
-        bucket-region: ${{ secrets.S3_BUCKET_REGION }}
-        dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-        invalidation: /
-        delete-removed: true
-        no-cache: true
-        private: true
+      - uses: reggionick/s3-deploy@v3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.REACT_DEPLOY_AWS_ACCESS_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_DEPLOY_AWS_SECRET }}
+        with:
+          folder: build
+          bucket: ${{ secrets.S3_BUCKET }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true
