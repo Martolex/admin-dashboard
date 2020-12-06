@@ -64,7 +64,7 @@ const OrdersDashboard = (props) => {
                   <th>CUSTOMER NAME</th>
                   <th>DELIVERY CITY</th>
                   <th>PAYMENT MODE</th>
-                  <th>ORDER STATUS</th>
+                  <th>PAYMENT STATUS</th>
                   <th>ORDER PRICE</th>
                   <th>ORDER DATE</th>
                 </tr>
@@ -81,7 +81,7 @@ const OrdersDashboard = (props) => {
                       <td>{order.user.name}</td>
                       <td>{order.address.city}</td>
                       <td>{order.paymentMode}</td>
-                      <td>{order.orderStatus}</td>
+                      <td>{order.paymentStatus}</td>
                       <td>Rs. {order.totalAmount}/-</td>
                       <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
                     </tr>
