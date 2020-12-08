@@ -7,6 +7,7 @@ import "../../../styles/Content/Orders/OrderDashboard.scss";
 import { ordersApi } from "../../../utils/EndPoints";
 import moment from "moment";
 import { get } from "../../../utils/requests";
+import IDGen from "../../../utils/IDGen";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
   async function getData(api, params) {
@@ -75,7 +76,7 @@ const OrdersDashboard = (props) => {
                     <tr key={order.id}>
                       <td>
                         <Link to={`${props.location.pathname}/${order.id}`}>
-                          {order.id.substring(0, 18).toUpperCase()}
+                          {IDGen(order.id)}
                         </Link>
                       </td>
                       <td>{order.user.name}</td>

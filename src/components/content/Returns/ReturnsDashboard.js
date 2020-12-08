@@ -7,6 +7,7 @@ import { get } from "../../../utils/requests";
 import ReturnDetailsDialog from "./ReturnDetailsDialog";
 import ReturnsPaymentDetails from "./ReturnsPaymentDetails";
 import moment from "moment";
+import IDGen from "../../../utils/IDGen";
 
 const ReturnsDashboard = (props) => {
   const [returnsDialog, setReturnDialogState] = useState({
@@ -96,7 +97,7 @@ const ReturnsDashboard = (props) => {
                 <tbody>
                   {returnRequests.map((request) => (
                     <tr onClick={() => viewReturnDetails(request.id)}>
-                      <td>{request.order.id.substring(0, 18).toUpperCase()}</td>
+                      <td>{IDGen(request.order.id)}</td>
                       <td>{request.order.user.name}</td>
                       <td>{request.book.name}</td>
                       <td>{request.plan}</td>

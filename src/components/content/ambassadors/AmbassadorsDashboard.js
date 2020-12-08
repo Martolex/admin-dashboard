@@ -8,6 +8,7 @@ import _ from "lodash";
 import AddNewAmbassadorDialog from "./AddNewAmbassadorDialog";
 import { FaTrash } from "react-icons/fa";
 import AmbassadorStatsDialog from "./AmbassadorStatsDialog";
+import IDGen from "../../../utils/IDGen";
 const AmbassadorsDashboard = (props) => {
   const [ambassadors, setAmbassadors] = useState([]);
   const [college, setCollege] = useState("");
@@ -132,13 +133,10 @@ const AmbassadorsDashboard = (props) => {
                 <tbody>
                   {ambassadors.map((ambassador) => (
                     <tr
-               
-                            onClick={showAmbassadorStats(ambassador.id)}
-         
-                                  key={ambassador.id}
-                    
+                      onClick={showAmbassadorStats(ambassador.id)}
+                      key={ambassador.id}
                     >
-                      <td>{ambassador.id.substring(0, 18)}</td>
+                      <td>{IDGen(ambassador.id)}</td>
                       <td>{ambassador.user.name}</td>
                       <td>{ambassador.user.email}</td>
                       <td>{ambassador.user.phoneNo}</td>

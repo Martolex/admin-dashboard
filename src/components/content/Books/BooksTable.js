@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { useHistory } from "react-router";
+import IDGen from "../../../utils/IDGen";
 
 const BooksTable = ({ books, thirdParty }) => {
   const history = useHistory();
@@ -31,7 +32,7 @@ const BooksTable = ({ books, thirdParty }) => {
                       key={book.id}
                       onClick={() => history.push(`/book/${book.id}`)}
                     >
-                      <td>{book.id}</td>
+                      <td>{IDGen(book.id)}</td>
                       <td>{book.name}</td>
                       <td>{book.author}</td>
                       <td>{book.publisher}</td>

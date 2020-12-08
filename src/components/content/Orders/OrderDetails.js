@@ -5,6 +5,7 @@ import { FaPen } from "react-icons/fa";
 import { ordersApi } from "../../../utils/EndPoints";
 import { get } from "../../../utils/requests";
 import moment from "moment";
+import IDGen from "../../../utils/IDGen";
 const OrderDetails = (props) => {
   const [order, setOrder] = useState(undefined);
   async function getData(api, params) {
@@ -41,7 +42,7 @@ const OrderDetails = (props) => {
                     <Col xs={4}>
                       <b>Order #:</b>
                     </Col>
-                    <Col>{props.match.params.id}</Col>
+                    <Col>{IDGen(props.match.params.id)}</Col>
                   </Row>
                   <Row>
                     <Col xs={4}>
