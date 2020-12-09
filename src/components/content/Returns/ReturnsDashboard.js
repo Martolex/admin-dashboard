@@ -72,7 +72,7 @@ const ReturnsDashboard = (props) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link className="text-dark" eventKey="PROCESSED">
-                OLD REQUESTS
+                PROCESSED REQUESTS
               </Nav.Link>
             </Nav.Item>
           </Nav>
