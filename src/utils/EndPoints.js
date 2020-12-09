@@ -5,6 +5,7 @@ export const adminApi = `${backendApi}admin`;
 export const ordersApi = {
   getOrders: `${adminApi}/orders`,
   orderDetails: (id) => `${adminApi}/orders/${id}`,
+  ModifyOrderStatus: (id) => `${adminApi}/orders/${id}/modifyOrderStatus`,
 };
 
 export const notFoundBooks = `${adminApi}/not-found-books`;

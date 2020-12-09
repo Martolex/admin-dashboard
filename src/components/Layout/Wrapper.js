@@ -6,7 +6,7 @@ import "../../styles/Layout/Wrapper.scss";
 import DataContainer from "./DataContainer";
 import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
-import OrderDetails from "../content/Orders/OrderDetails";
+import OrderDetails from "../content/Orders/OrderDetails/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
