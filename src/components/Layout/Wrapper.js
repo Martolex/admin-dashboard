@@ -10,7 +10,7 @@ import OrderDetails from "../content/Orders/OrderDetails/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
-import SubscribersDashboard from "../content/subscribersDashboard";
+import LeadsDashboard from "../content/LeadsDashboard";
 import ReviewsDashboard from "../content/reviews/reviewsDashboard";
 import { BiPackage } from "react-icons/bi";
 import { FaBook, FaUser } from "react-icons/fa";
@@ -60,10 +60,10 @@ const sideBarItems = [
     component: ReviewsDashboard,
   },
   {
-    title: "subscribers",
-    path: "/subscribers",
+    title: "leads",
+    path: "/leads",
     icon: { component: MdEmail },
-    component: SubscribersDashboard,
+    component: LeadsDashboard,
   },
   {
     title: "ambassadors",

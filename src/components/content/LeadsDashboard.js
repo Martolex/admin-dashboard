@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { get } from "../../utils/requests";
-import { subscribersApi } from "../../utils/EndPoints";
+import { LeadsApi } from "../../utils/EndPoints";
 
-const SubscribersDashboard = (props) => {
-  const [subscribers, setSubscribers] = useState([]);
+const LeadsDashboard = (props) => {
+  const [leads, setleads] = useState([]);
   async function getData(api, params) {
     console.log(api);
     try {
       const [data] = await get(api, true, params);
-      setSubscribers(data);
+      setleads(data);
     } catch (err) {
       console.log(err);
     }
   }
   React.useEffect(() => {
-    getData(subscribersApi.getSubscribers);
+    getData(LeadsApi.getLeads);
   }, []);
   return (
     <Container className="mt-4" fluid>
@@ -30,21 +30,19 @@ const SubscribersDashboard = (props) => {
                   <th>EMAIL</th>
                 </tr>
               </thead>
-              {subscribers.length > 0 ? (
+              {leads.length > 0 ? (
                 <tbody>
-                  {subscribers.map((subscriber) => (
-                    <tr key={subscriber.id}>
-                      <td>{subscriber.name}</td>
-                      <td>{subscriber.email}</td>
+                  {leads.map((lead) => (
+                    <tr key={lead.id}>
+                      <td>{lead.name}</td>
+                      <td>{lead.email}</td>
                     </tr>
                   ))}
                 </tbody>
               ) : (
                 <tr>
                   <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">
-                      No subscribers
-                    </h2>
+                    <h2 className="w-100 text-center display-4">No leads</h2>
                   </td>
                 </tr>
               )}
@@ -71,4 +69,4 @@ const SubscribersDashboard = (props) => {
   );
 };
 
-export default SubscribersDashboard;
+export default LeadsDashboard;

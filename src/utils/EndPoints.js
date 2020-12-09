@@ -34,8 +34,8 @@ export const categoriesApi = {
   getSubCategories: (catId) => `${adminApi}/category/subCategories/${catId}`,
 };
 
-export const subscribersApi = {
-  getSubscribers: `${adminApi}/newsletter/getAllSubscribers`,
+export const LeadsApi = {
+  getLeads: `${adminApi}/newsletter/getAllSubscribers`,
 };
 
 export const reviewsApi = {
