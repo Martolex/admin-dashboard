@@ -1,0 +1,83 @@
+import React, { useState } from "react";
+import { Form } from "react-bootstrap";
+import { Table as TableBase } from "react-bootstrap";
+const Table = ({
+  data,
+  headerCols,
+  renderRow,
+  renderEmpty,
+  keyExtractor,
+  dataModifier,
+  selectable = true,
+}) => {
+  const [selectedCount, setSelectedCount] = useState(0);
+
+  function selectAllItems(selected) {
+    const newItems = data.map((item) => ({ ...item, selected: selected }));
+    dataModifier(newItems);
+    setSelectedCount(selected ? data.length : 0);
+  }
+
+  function selectItem(id, selected) {
+    const newItems = data.map((lead) =>
+      lead.id == id ? { ...lead, selected } : lead
+    );
+
+    setSelectedCount(selected ? selectedCount + 1 : selectedCount - 1);
+    dataModifier(newItems);
+  }
+  return (
+    <TableBase hover>
+      <thead className="bg-primary">
+        <tr>
+          {selectable && (
+            <th>
+              <Form.Check
+                type="checkbox"
+                disabled={data.length === 0}
+                checked={data.length !== 0 && selectedCount === data.length}
+                onChange={(event) => {
+                  selectAllItems(event.target.checked);
+                }}
+              />
+            </th>
+          )}
+          {headerCols.map((item, idx) => (
+            <th key={idx}>{item}</th>
+          ))}
+        </tr>
+      </thead>
+      {data.length > 0 ? (
+        <tbody>
+          {data.map((item) => (
+            <tr
+              key={keyExtractor(item)}
+              className={item.selected ? "bg-lightgray" : ""}
+            >
+              {selectable && (
+                <td>
+                  <Form.Check
+                    type="checkbox"
+                    checked={item.selected || false}
+                    onChange={(event) => {
+                      selectItem(keyExtractor(item), event.target.checked);
+                    }}
+                  />
+                </td>
+              )}
+              {renderRow(item).map((cell, idx) => (
+                <td key={idx}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      ) : (
+        <tr>
+          <td colspan="100%">{renderEmpty}</td>
+        </tr>
+      )}
+    </TableBase>
+  );
+};
+
+export default Table;
