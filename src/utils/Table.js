@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Table as TableBase } from "react-bootstrap";
+import PropTypes from "prop-types";
 const Table = ({
   data,
   headerCols,
@@ -73,11 +74,21 @@ const Table = ({
         </tbody>
       ) : (
         <tr>
-          <td colspan="100%">{renderEmpty}</td>
+          <td colspan="100%">{<renderEmpty />}</td>
         </tr>
       )}
     </TableBase>
   );
+};
+
+Table.propTypes = {
+  data: PropTypes.array.isRequired,
+  headerCols: PropTypes.array.isRequired,
+  renderRow: PropTypes.func.isRequired,
+  renderEmpty: PropTypes.func.isRequired,
+  keyExtractor: PropTypes.func.isRequired,
+  dataModifier: PropTypes.func,
+  selectable: PropTypes.bool,
 };
 
 export default Table;
