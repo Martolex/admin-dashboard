@@ -4,3 +4,16 @@ export const returnStates = {
   RETURNED: 2,
   NOT_ELIGIBLE: -1,
 };
+
+export const paymentStatus = {
+  PENDING: "PENDING",
+  PAID: "PAID",
+  FAILED: "FAILED",
+};
+
+export const orderStatus = {
+  PROCESSING: "PROCESSING",
+  SHIPPED: "SHIPPED",
+  INTRANSIT: "INTRANSIT",
+  DELIVERED: "DELIVERED",
+};

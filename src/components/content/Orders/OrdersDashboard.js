@@ -8,6 +8,7 @@ import { ordersApi } from "../../../utils/EndPoints";
 import moment from "moment";
 import { get } from "../../../utils/requests";
 import IDGen from "../../../utils/IDGen";
+import { orderStatus } from "../../../utils/enums";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
   async function getData(api, params) {
@@ -35,20 +36,20 @@ const OrdersDashboard = (props) => {
           <Nav
             onSelect={getOrderByType}
             variant="pills"
-            defaultActiveKey="PROCESSING"
+            defaultActiveKey={orderStatus.PROCESSING}
           >
             <Nav.Item>
-              <Nav.Link className="text-dark" eventKey="PROCESSING">
+              <Nav.Link className="text-dark" eventKey={orderStatus.PROCESSING}>
                 NOT PROCESSED
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="text-dark" eventKey="INTRANSIT">
+              <Nav.Link className="text-dark" eventKey={orderStatus.SHIPPED}>
                 DISPATCHED
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="text-dark" eventKey="DELIVERED">
+              <Nav.Link className="text-dark" eventKey={orderStatus.DELIVERED}>
                 DELIVERED
               </Nav.Link>
             </Nav.Item>
