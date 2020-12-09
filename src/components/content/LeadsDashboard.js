@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { get } from "../../utils/requests";
 import { LeadsApi } from "../../utils/EndPoints";
+import Table from "../../utils/Table";
 
 const LeadsDashboard = (props) => {
   const [leads, setleads] = useState([]);
@@ -15,38 +16,32 @@ const LeadsDashboard = (props) => {
       console.log(err);
     }
   }
+
   React.useEffect(() => {
     getData(LeadsApi.getLeads);
   }, []);
   return (
     <Container className="mt-4" fluid>
+      <Row className="mb-2 justify-content-center">
+        <Col md={8} className="text-right">
+          <Button variant="info">SEND PROMO EMAIL</Button>
+        </Col>
+      </Row>
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={8}>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                </tr>
-              </thead>
-              {leads.length > 0 ? (
-                <tbody>
-                  {leads.map((lead) => (
-                    <tr key={lead.id}>
-                      <td>{lead.name}</td>
-                      <td>{lead.email}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No leads</h2>
-                  </td>
-                </tr>
+            <Table
+              data={leads}
+              keyExtractor={(item) => item.id}
+              headerCols={["NAME", "EMAIL", "PHONE"]}
+              renderRow={(item) => {
+                return [item.name, item.email, item.phoneNo];
+              }}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No leads</h2>
               )}
-            </Table>
+              dataModifier={setleads}
+            />
           </div>
         </Col>
       </Row>
