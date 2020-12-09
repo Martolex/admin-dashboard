@@ -7,7 +7,11 @@ import moment from "moment";
 import DispatchDialog from "./DispatchDialog";
 import OrderSummaryCard from "./OrderSummaryCard";
 import AddressCard from "./AddressCard";
-import { orderStatus, paymentStatus } from "../../../../utils/enums";
+import {
+  orderStatus,
+  paymentMethods,
+  paymentStatus,
+} from "../../../../utils/enums";
 const OrderDetails = (props) => {
   const [order, setOrder] = useState(undefined);
 
@@ -24,7 +28,7 @@ const OrderDetails = (props) => {
 
   useEffect(() => {
     getData(ordersApi.orderDetails(props.match.params.id));
-  }, []);
+  }, [props.match.params.id]);
 
   async function deliverItem() {
     try {
@@ -105,7 +109,8 @@ const OrderDetails = (props) => {
         </Col>
       </Row>
       <Row className="my-2">
-        {order.paymentStatus == paymentStatus.PAID ? (
+        {order.paymentStatus === paymentStatus.PAID ||
+        order.paymentMode === paymentMethods.COD ? (
           nextStateButton()
         ) : (
           <Col md={3}>

@@ -46,11 +46,7 @@ const DispatchDialog = ({
       status: orderStatus.SHIPPED,
     };
     try {
-      const [res] = await post(
-        ordersApi.ModifyOrderStatus(orderId),
-        true,
-        payLoad
-      );
+      await post(ordersApi.ModifyOrderStatus(orderId), true, payLoad);
       props.reload();
       handleClose();
     } catch (err) {

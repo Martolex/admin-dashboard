@@ -11,6 +11,7 @@ import IDGen from "../../../utils/IDGen";
 import { orderStatus } from "../../../utils/enums";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
+  const [filters, setFilters] = useState({ status: orderStatus.PROCESSING });
   async function getData(api, params) {
     console.log(api);
     try {
@@ -21,10 +22,10 @@ const OrdersDashboard = (props) => {
     }
   }
   useEffect(() => {
-    getData(ordersApi.getOrders);
-  }, []);
+    getData(ordersApi.getOrders, filters);
+  }, [filters]);
   function getOrderByType(eventKey) {
-    getData(ordersApi.getOrders, { status: eventKey });
+    setFilters({ ...filters, status: eventKey });
   }
   return (
     <Container className="mt-4" fluid>
