@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Table, Row, Col, Nav } from "react-bootstrap";
+import { Container, Row, Col, Nav } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import "../../../styles/Content/Orders/OrderDashboard.scss";
@@ -9,6 +9,8 @@ import moment from "moment";
 import { get } from "../../../utils/requests";
 import IDGen from "../../../utils/IDGen";
 import { orderStatus } from "../../../utils/enums";
+import Table from "../../../utils/Table";
+
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
   const [filters, setFilters] = useState({ status: orderStatus.PROCESSING });
@@ -27,6 +29,27 @@ const OrdersDashboard = (props) => {
   function getOrderByType(eventKey) {
     setFilters({ ...filters, status: eventKey });
   }
+
+  const tableHeaders = [
+    "ORDER ID",
+    "CUSTOMER NAME",
+    "DELIVERY CITY",
+    "PAYMENT MODE",
+    "PAYMENT STATUS",
+    "ORDER PRICE",
+    "ORDER DATE",
+  ];
+
+  const renderRow = (item) => [
+    <Link to={`${props.location.pathname}/${item.id}`}>{IDGen(item.id)}</Link>,
+    item.user.name,
+    item.address.city,
+    item.paymentMode,
+    item.paymentStatus,
+    `Rs. ${item.totalAmount}/-`,
+    moment(item.createdAt).format("DD-MM-YYYY"),
+  ];
+
   return (
     <Container className="mt-4" fluid>
       <Row className="mb-3 py-2">
@@ -60,44 +83,13 @@ const OrdersDashboard = (props) => {
       <Row>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>ORDER ID</th>
-                  <th>CUSTOMER NAME</th>
-                  <th>DELIVERY CITY</th>
-                  <th>PAYMENT MODE</th>
-                  <th>PAYMENT STATUS</th>
-                  <th>ORDER PRICE</th>
-                  <th>ORDER DATE</th>
-                </tr>
-              </thead>
-              {orders.length > 0 ? (
-                <tbody>
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td>
-                        <Link to={`${props.location.pathname}/${order.id}`}>
-                          {IDGen(order.id)}
-                        </Link>
-                      </td>
-                      <td>{order.user.name}</td>
-                      <td>{order.address.city}</td>
-                      <td>{order.paymentMode}</td>
-                      <td>{order.paymentStatus}</td>
-                      <td>Rs. {order.totalAmount}/-</td>
-                      <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Orders</h2>
-                  </td>
-                </tr>
-              )}
-            </Table>
+            <Table
+              data={orders}
+              keyExtractor={(item) => item.id}
+              headerCols={tableHeaders}
+              renderRow={renderRow}
+              selectable={false}
+            />
           </div>
         </Col>
       </Row>
