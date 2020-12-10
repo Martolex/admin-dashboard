@@ -76,7 +76,15 @@ const OrderDetails = (props) => {
     }
   };
 
-  async function sendPaymentLink() {}
+  async function sendPaymentLink() {
+    console.log("here");
+    try {
+      const [res] = await post(ordersApi.resendPaymentLink(order.id), true);
+      console.log(res);
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   const deliveryDates = order
     ? {
