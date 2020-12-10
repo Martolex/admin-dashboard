@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Nav, Row, Table } from "react-bootstrap";
+import { Col, Container, Nav, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { notFoundBooks } from "../../../utils/EndPoints";
 import { get } from "../../../utils/requests";
 import moment from "moment";
+import Table from "../../../utils/Table";
 
 const RequestDashboard = (props) => {
   const [queries, setQueries] = useState([]);
@@ -19,49 +20,45 @@ const RequestDashboard = (props) => {
   useEffect(() => {
     getData(notFoundBooks);
   }, []);
+  const headerCols = [
+    "USER NAME",
+    "MOBILE",
+    "EMAIL",
+    "BOOK NAME",
+    "PUBLISHER",
+    "AUTHOR",
+    "EDITION",
+    "ISBN",
+    "DATE",
+  ];
+
+  const renderRow = (query) => [
+    query.userName,
+    query.userPhone,
+    query.userEmail,
+    query.name,
+    query.publisher,
+    query.author,
+    query.edition,
+    query.isbn,
+    moment(query.createdAt).format("DD/MM/YYYY"),
+  ];
+
   return (
     <Container className="mt-4" fluid>
       <Row>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>USER NAME</th>
-                  <th>MOBILE</th>
-                  <th>EMAIL</th>
-                  <th>BOOK NAME</th>
-                  <th>PUBLISHER</th>
-                  <th>AUTHOR</th>
-                  <th>EDITION</th>
-                  <th>ISBN</th>
-                  <th>DATE</th>
-                </tr>
-              </thead>
-              {queries.length > 0 ? (
-                <tbody>
-                  {queries.map((query) => (
-                    <tr>
-                      <td>{query.userName}</td>
-                      <td>{query.userPhone}</td>
-                      <td>{query.userEmail}</td>
-                      <td>{query.name}</td>
-                      <td>{query.publisher || "NA"}</td>
-                      <td>{query.author || "NA"}</td>
-                      <td>{query.edition || "NA"}</td>
-                      <td>{query.isbn || "NA"}</td>
-                      <td>{moment(query.createdAt).format("DD/MM/YYYY")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Orders</h2>
-                  </td>
-                </tr>
+            <Table
+              data={queries}
+              keyExtractor={(query) => query.id}
+              headerCols={headerCols}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Requests</h2>
               )}
-            </Table>
+              renderRow={renderRow}
+              selectable={false}
+            />
           </div>
         </Col>
       </Row>

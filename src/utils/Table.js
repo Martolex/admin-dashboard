@@ -29,7 +29,7 @@ const Table = ({
     dataModifier(newItems);
   }
   return (
-    <TableBase hover>
+    <TableBase responsive hover>
       <thead className="bg-primary">
         <tr>
           {selectable && (
@@ -56,7 +56,7 @@ const Table = ({
               key={keyExtractor(item)}
               className={item.selected ? "bg-lightgray" : ""}
               onClick={() => {
-                props.rowClick && props.rowClick(item);
+                props.onRowClick && props.onRowClick(item);
               }}
             >
               {selectable && (
@@ -95,7 +95,7 @@ Table.propTypes = {
   keyExtractor: PropTypes.func.isRequired,
   dataModifier: PropTypes.func,
   selectable: PropTypes.bool,
-  rowClick: PropTypes.func,
+  onRowClick: PropTypes.func,
 };
 
 export default Table;

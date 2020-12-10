@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { get } from "../../../utils/requests";
 import { UsersApi } from "../../../utils/EndPoints";
+import Table from "../../../utils/Table";
 
 const UsersDashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -37,36 +38,22 @@ const UsersDashboard = (props) => {
       <Row className="justify-content-center">
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>MOBILE</th>
-                  <th>COLLEGE</th>
-                  <th>SELLER</th>
-                </tr>
-              </thead>
-              {users.length > 0 ? (
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phoneNo}</td>
-                      <td>{user.college || "not available"}</td>
-                      <td>{user.isSeller ? "YES" : "NO"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Users</h2>
-                  </td>
-                </tr>
+            <Table
+              data={users}
+              keyExtractor={(user) => users.id}
+              headerCols={["NAME", "EMAIL", "MOBILE", "COLLEGE", "SELLER"]}
+              renderRow={(user) => [
+                user.name,
+                user.email,
+                user.phoneNo,
+                user.college || "not available",
+                user.isSeller ? "YES" : "NO",
+              ]}
+              selectable={false}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Users</h2>
               )}
-            </Table>
+            />
           </div>
         </Col>
       </Row>

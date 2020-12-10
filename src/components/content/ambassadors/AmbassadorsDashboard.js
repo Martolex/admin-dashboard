@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import Select from "react-select/async";
 import { ambassadorsApi, collegeApi } from "../../../utils/EndPoints";
@@ -9,6 +9,7 @@ import AddNewAmbassadorDialog from "./AddNewAmbassadorDialog";
 import { FaTrash } from "react-icons/fa";
 import AmbassadorStatsDialog from "./AmbassadorStatsDialog";
 import IDGen from "../../../utils/IDGen";
+import Table from "../../../utils/Table";
 const AmbassadorsDashboard = (props) => {
   const [ambassadors, setAmbassadors] = useState([]);
   const [college, setCollege] = useState("");
@@ -55,11 +56,10 @@ const AmbassadorsDashboard = (props) => {
     []
   );
   function showAmbassadorStats(id) {
-    return () => {
-      setAmbassadorStatsDialogOpen(true);
-      setCurrAmbassador(id);
-    };
+    setAmbassadorStatsDialogOpen(true);
+    setCurrAmbassador(id);
   }
+
   async function deactivateAmbassador(id) {
     try {
       const [res] = await post(ambassadorsApi.deactivate, true, {
@@ -118,50 +118,38 @@ const AmbassadorsDashboard = (props) => {
       <Row className="justify-content-center">
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>ID</th>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>MOBILE</th>
-                  <th>COLLEGE</th>
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-              {ambassadors.length > 0 ? (
-                <tbody>
-                  {ambassadors.map((ambassador) => (
-                    <tr
-                      onClick={showAmbassadorStats(ambassador.id)}
-                      key={ambassador.id}
-                    >
-                      <td>{IDGen(ambassador.id)}</td>
-                      <td>{ambassador.user.name}</td>
-                      <td>{ambassador.user.email}</td>
-                      <td>{ambassador.user.phoneNo}</td>
-                      <td>{ambassador.college.name}</td>
-                      <td>
-                        <Button
-                          onClick={() => deactivateAmbassador(ambassador.id)}
-                          variant="danger"
-                        >
-                          <FaTrash />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">
-                      No ambassadors
-                    </h2>
-                  </td>
-                </tr>
+            <Table
+              data={ambassadors}
+              keyExtractor={(item) => item.id}
+              selectable={false}
+              headerCols={[
+                "ID",
+                "NAME",
+                "EMAIL",
+                "MOBILE",
+                "COLLEGE",
+                "ACTIONS",
+              ]}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No ambassadors</h2>
               )}
-            </Table>
+              renderRow={(ambassador) => [
+                IDGen(ambassador.id),
+                ambassador.user.name,
+                ambassador.user.email,
+                ambassador.user.phoneNo,
+                ambassador.college.name,
+                <Button
+                  onClick={() => deactivateAmbassador(ambassador.id)}
+                  variant="danger"
+                >
+                  <FaTrash />
+                </Button>,
+              ]}
+              onRowClick={(ambassador) => {
+                showAmbassadorStats(ambassador.id);
+              }}
+            />
           </div>
         </Col>
       </Row>

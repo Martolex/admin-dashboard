@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Nav, Row, Table } from "react-bootstrap";
+import { Col, Container, Nav, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { returnsApi } from "../../../utils/EndPoints";
@@ -8,6 +8,7 @@ import ReturnDetailsDialog from "./ReturnDetailsDialog";
 import ReturnsPaymentDetails from "./ReturnsPaymentDetails";
 import moment from "moment";
 import IDGen from "../../../utils/IDGen";
+import Table from "../../../utils/Table";
 
 const ReturnsDashboard = (props) => {
   const [returnsDialog, setReturnDialogState] = useState({
@@ -81,44 +82,35 @@ const ReturnsDashboard = (props) => {
       <Row>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover responsive>
-              <thead className="bg-primary">
-                <tr>
-                  <th>ORDER ID</th>
-                  <th>CUSTOMER NAME</th>
-                  <th>BOOK NAME</th>
-                  <th>PLAN</th>
-                  <th>ORDER DATE</th>
-                  <th>REQUEST DATE</th>
-                  <th>LAST RETURN DATE</th>
-                </tr>
-              </thead>
-              {returnRequests.length > 0 ? (
-                <tbody>
-                  {returnRequests.map((request) => (
-                    <tr onClick={() => viewReturnDetails(request.id)}>
-                      <td>{IDGen(request.order.id)}</td>
-                      <td>{request.order.user.name}</td>
-                      <td>{request.book.name}</td>
-                      <td>{request.plan}</td>
-                      <td>
-                        {moment(request.order.createdAt).format("DD-MM-YYYY")}
-                      </td>
-                      <td>
-                        {moment(request.returnRequestDate).format("DD-MM-YYYY")}
-                      </td>
-                      <td>{moment(request.returnDate).format("DD-MM-YYYY")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Orders</h2>
-                  </td>
-                </tr>
+            <Table
+              data={returnRequests}
+              keyExtractor={(request) => request.id}
+              headerCols={[
+                "ORDER ID",
+                "CUSTOMER NAME",
+                "BOOK NAME",
+                "PLAN",
+                "ORDER DATE",
+                "REQUEST DATE",
+                "LAST RETURN DATE",
+              ]}
+              renderRow={(request) => [
+                IDGen(request.order.id),
+                request.order.user.name,
+                request.book.name,
+                request.plan,
+                moment(request.order.createdAt).format("DD-MM-YYYY"),
+                moment(request.returnRequestDate).format("DD-MM-YYYY"),
+                moment(request.returnDate).format("DD-MM-YYYY"),
+              ]}
+              selectable={false}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Returns</h2>
               )}
-            </Table>
+              onRowClick={(request) => {
+                viewReturnDetails(request.id);
+              }}
+            />
           </div>
         </Col>
       </Row>
