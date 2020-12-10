@@ -80,7 +80,7 @@ const OrderDetails = (props) => {
     console.log("here");
     try {
       const [res] = await post(ordersApi.resendPaymentLink(order.id), true);
-      console.log(res);
+      alert("link sent successfully");
     } catch (err) {
       alert(err);
     }
