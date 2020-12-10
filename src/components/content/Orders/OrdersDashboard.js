@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Nav } from "react-bootstrap";
+import { Container, Row, Col, Nav, Button } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import "../../../styles/Content/Orders/OrderDashboard.scss";
@@ -10,10 +10,12 @@ import { get } from "../../../utils/requests";
 import IDGen from "../../../utils/IDGen";
 import { orderStatus } from "../../../utils/enums";
 import Table from "../../../utils/Table";
-
+import FiltersDialog from "./FiltersDialog";
+import { FiFilter } from "react-icons/fi";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
   const [filters, setFilters] = useState({ status: orderStatus.PROCESSING });
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   async function getData(api, params) {
     console.log(api);
     try {
@@ -28,6 +30,10 @@ const OrdersDashboard = (props) => {
   }, [filters]);
   function getOrderByType(eventKey) {
     setFilters({ ...filters, status: eventKey });
+  }
+
+  function openFiltersDialog() {
+    setFilterDialogOpen(true);
   }
 
   const tableHeaders = [
@@ -52,11 +58,16 @@ const OrdersDashboard = (props) => {
 
   return (
     <Container className="mt-4" fluid>
-      <Row className="mb-3 py-2">
-        <Col
-          style={{ border: "1px solid #ddd", borderRadius: 5 }}
-          className="py-2 mx-3"
-        >
+      <FiltersDialog
+        isOpen={filterDialogOpen}
+        handleClose={() => setFilterDialogOpen(false)}
+        filterSetter={setFilters}
+      />
+      <Row
+        className="mb-3  mx-1"
+        style={{ border: "1px solid #ddd", borderRadius: 5 }}
+      >
+        <Col className="py-2">
           <Nav
             onSelect={getOrderByType}
             variant="pills"
@@ -78,6 +89,17 @@ const OrdersDashboard = (props) => {
               </Nav.Link>
             </Nav.Item>
           </Nav>
+        </Col>
+        <Col md={2} className="py-2">
+          <Button
+            className="align-items"
+            block
+            variant="primary"
+            onClick={openFiltersDialog}
+          >
+            <FiFilter className="mr-2" />
+            FILTERS
+          </Button>
         </Col>
       </Row>
       <Row>
