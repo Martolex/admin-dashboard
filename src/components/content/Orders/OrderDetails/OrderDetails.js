@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Table, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import { ordersApi } from "../../../../utils/EndPoints";
 import { get, post } from "../../../../utils/requests";
 import moment from "moment";
@@ -12,6 +12,7 @@ import {
   paymentMethods,
   paymentStatus,
 } from "../../../../utils/enums";
+import Table from "../../../../utils/Table";
 const OrderDetails = (props) => {
   const [order, setOrder] = useState(undefined);
 
@@ -79,7 +80,7 @@ const OrderDetails = (props) => {
   async function sendPaymentLink() {
     console.log("here");
     try {
-      const [res] = await post(ordersApi.resendPaymentLink(order.id), true);
+      post(ordersApi.resendPaymentLink(order.id), true);
       alert("link sent successfully");
     } catch (err) {
       alert(err);
@@ -110,7 +111,7 @@ const OrderDetails = (props) => {
       </Row>
       <Row className="">
         <Col className="mb-3" xs={12} md={6}>
-          <OrderSummaryCard order={order} />
+          <OrderSummaryCard order={order} orderModifier={setOrder} />
         </Col>
         <Col>
           <AddressCard address={order.address} />
@@ -132,34 +133,31 @@ const OrderDetails = (props) => {
       <Row className="mt-3" key={"123"}>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary align-items-center">
-                <tr>
-                  <th>SOLD BY</th>
-                  <th>BOOK NAME</th>
-                  <th>AUTHOR</th>
-                  <th>PUBLISHER</th>
-                  <th>ISBN</th>
-                  <th>PLAN</th>
-                  <th>QTY</th>
-                  <th>RETURN DATE</th>
-                </tr>
-              </thead>
-              <tbody>
-                {order.items.map((item) => (
-                  <tr>
-                    <td>{item.book.upload.name}</td>
-                    <td>{item.book.name}</td>
-                    <td>{item.book.author}</td>
-                    <td>{item.book.publisher}</td>
-                    <td>{item.book.isbn}</td>
-                    <td>{item.plan}</td>
-                    <td>{item.qty}</td>
-                    <td>{moment(item.returnDate).format("DD-MM-YYYY")}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <Table
+              data={order.items}
+              keyExtractor={(item) => item.id}
+              headerCols={[
+                "SOLD BY",
+                "BOOK NAME",
+                "AUTHOR",
+                "PUBLISHER",
+                "ISBN",
+                "PLAN",
+                "QTY",
+                "RETURN DATE",
+              ]}
+              renderRow={(item) => [
+                item.book.upload.name,
+                item.book.name,
+                item.book.author,
+                item.book.publisher,
+                item.book.isbn,
+                item.plan,
+                item.qty,
+                moment(item.returnDate).format("DD-MM-YYYY"),
+              ]}
+              selectable={false}
+            />
           </div>
         </Col>
       </Row>
