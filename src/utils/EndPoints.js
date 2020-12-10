@@ -7,6 +7,7 @@ export const ordersApi = {
   orderDetails: (id) => `${adminApi}/orders/${id}`,
   ModifyOrderStatus: (id) => `${adminApi}/orders/${id}/modifyOrderStatus`,
   resendPaymentLink: (id) => `${adminApi}/orders/${id}/resendPaymentLink`,
+  modifyDeliveryDates: (id) => `${adminApi}/orders/${id}/modifyDeliveryDates`,
 };
 
 export const notFoundBooks = `${adminApi}/not-found-books`;
