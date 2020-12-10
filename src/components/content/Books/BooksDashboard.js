@@ -1,11 +1,8 @@
 import React from "react";
-import { Col, Container, Nav, Row, Table } from "react-bootstrap";
+import { Col, Container, Nav, Row } from "react-bootstrap";
 
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Switch, useHistory, useLocation } from "react-router";
 import PrivateRoute from "../../../utils/PrivateRoute";
-import BookDetails from "./BookDetails";
-import BooksTable from "./BooksTable";
 import MartolexSoldBooks from "./MartolexSoldBooks";
 import ThirdPartyBooks from "./ThirdPartyBooks";
 

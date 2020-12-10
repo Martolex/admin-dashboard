@@ -36,7 +36,7 @@ const EditableField = ({
                 required
                 autofocus
                 {...props}
-                value={options.find((option) => option.label == value)?.value}
+                value={options.find((option) => option.label === value)?.value}
                 onChange={(event) => onChange(event.target.value)}
               >
                 {options.map((opt) => (

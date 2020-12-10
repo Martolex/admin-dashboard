@@ -22,7 +22,7 @@ const Table = ({
 
   function selectItem(id, selected) {
     const newItems = data.map((lead) =>
-      lead.id == id ? { ...lead, selected } : lead
+      lead.id === id ? { ...lead, selected } : lead
     );
 
     setSelectedCount(selected ? selectedCount + 1 : selectedCount - 1);

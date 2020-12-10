@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { Col, Container, Modal, Row } from "react-bootstrap";
 import { UsersApi } from "../../../utils/EndPoints";
 import { get } from "../../../utils/requests";
 import Table from "../../../utils/Table";
@@ -56,47 +56,6 @@ const CartDialog = ({ isOpen, handleClose, userId }) => {
                     <h2 className="w-100 text-center display-4">No Books</h2>
                   )}
                 />
-
-                {/* <Table hover>
-                  <thead className="bg-primary">
-                    <tr>
-                      "BOOK NAME",
-                      "AUTHOR",
-                      "EDITION",
-                      "PUBLISHER ",
-                      "ISBN",
-                      "PLAN",
-                      "SOLD BY",
-                    </tr>
-                  </thead>
-                  {cartItems.length > 0 ? (
-                    <tbody>
-                      {cartItems.map(({ book, plan }) => (
-                        <tr key={book.id}>
-                          <td>{book.name}</td>
-                          <td>{book.author}</td>
-                          <td>{book.edition}</td>
-                          <td>{book.publisher}</td>
-                          <td>{book.isbn}</td>
-                          <td>{plan}</td>
-                          <td>
-                            {book.upload.isAdmin
-                              ? "MARTOLEX"
-                              : book.upload.name}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  ) : (
-                    <tr>
-                      <td colspan="100%">
-                        <h2 className="w-100 text-center display-4">
-                          No Items in Cart
-                        </h2>
-                      </td>
-                    </tr>
-                  )}
-                </Table> */}
               </div>
             </Col>
           </Row>

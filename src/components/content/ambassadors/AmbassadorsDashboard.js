@@ -62,7 +62,7 @@ const AmbassadorsDashboard = (props) => {
 
   async function deactivateAmbassador(id) {
     try {
-      const [res] = await post(ambassadorsApi.deactivate, true, {
+      await post(ambassadorsApi.deactivate, true, {
         ambassadorId: id,
       });
       loadData();

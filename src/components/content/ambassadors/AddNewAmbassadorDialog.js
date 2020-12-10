@@ -1,13 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  FormGroup,
-  Modal,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Col, Form, Modal, Row, Spinner } from "react-bootstrap";
 import Select from "react-select/async";
 import { ambassadorsApi, collegeApi } from "../../../utils/EndPoints";
 import { get, post } from "../../../utils/requests";
@@ -93,11 +85,7 @@ const AddNewAmbassadorDialog = (props) => {
         userId: data.userId,
         zip: data.zip,
       };
-      const [res] = await post(
-        ambassadorsApi.createAmbassador,
-        true,
-        ambassadorParams
-      );
+      await post(ambassadorsApi.createAmbassador, true, ambassadorParams);
       props.reload();
       props.handleClose();
     } catch (err) {
@@ -135,7 +123,9 @@ const AddNewAmbassadorDialog = (props) => {
               </Form.Group>
             </Col>
             <Col className="my-auto " xs={2} md={1}>
-              <Spinner variant="info" animation="border" size="sm" />
+              {loading && (
+                <Spinner variant="info" animation="border" size="sm" />
+              )}
             </Col>
           </Row>
           <Row>

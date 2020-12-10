@@ -264,7 +264,7 @@ const BookDetails = (props) => {
                       onChange={(value) =>
                         setBook((prevState) => ({
                           ...prevState,
-                          isBuyBackEnabled: value == 1,
+                          isBuyBackEnabled: value === 1,
                         }))
                       }
                       value={book.isBuyBackEnabled ? "YES" : "NO"}
@@ -431,7 +431,7 @@ const BookDetails = (props) => {
             </Col>
           </Row>
         </Col>
-        {!soldByMartolex && book.isApproved == 0 && (
+        {!soldByMartolex && book.isApproved === 0 && (
           <Col>
             <Row>
               <Col>

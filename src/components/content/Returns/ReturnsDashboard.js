@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Nav, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import { returnsApi } from "../../../utils/EndPoints";
 import { get } from "../../../utils/requests";
 import ReturnDetailsDialog from "./ReturnDetailsDialog";
@@ -57,7 +56,7 @@ const ReturnsDashboard = (props) => {
         >
           <Nav
             onSelect={(eventKey) => {
-              if (eventKey == "PROCESSING") {
+              if (eventKey === "PROCESSING") {
                 getData(returnsApi.getReturnRequests);
               } else {
                 getData(returnsApi.getProcessedReturnRequests);
