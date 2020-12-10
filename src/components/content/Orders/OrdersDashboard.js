@@ -89,6 +89,9 @@ const OrdersDashboard = (props) => {
               headerCols={tableHeaders}
               renderRow={renderRow}
               selectable={false}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Orders</h2>
+              )}
             />
           </div>
         </Col>
