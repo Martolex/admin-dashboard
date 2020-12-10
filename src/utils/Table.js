@@ -10,6 +10,7 @@ const Table = ({
   keyExtractor,
   dataModifier,
   selectable = true,
+  ...props
 }) => {
   const [selectedCount, setSelectedCount] = useState(0);
 
@@ -54,6 +55,9 @@ const Table = ({
             <tr
               key={keyExtractor(item)}
               className={item.selected ? "bg-lightgray" : ""}
+              onClick={() => {
+                props.rowClick && props.rowClick(item);
+              }}
             >
               {selectable && (
                 <td>
@@ -73,9 +77,11 @@ const Table = ({
           ))}
         </tbody>
       ) : (
-        <tr>
-          <td colspan="100%">{<renderEmpty />}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td colspan="100%">{renderEmpty()}</td>
+          </tr>
+        </tbody>
       )}
     </TableBase>
   );
@@ -89,6 +95,7 @@ Table.propTypes = {
   keyExtractor: PropTypes.func.isRequired,
   dataModifier: PropTypes.func,
   selectable: PropTypes.bool,
+  rowClick: PropTypes.func,
 };
 
 export default Table;
