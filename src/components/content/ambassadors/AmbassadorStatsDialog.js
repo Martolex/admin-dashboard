@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { Col, Container, Modal, Row } from "react-bootstrap";
 import { ambassadorsApi } from "../../../utils/EndPoints";
 import { get } from "../../../utils/requests";
 import StatCard from "./StatCard";
@@ -71,7 +71,6 @@ const AmbassadorStatsDialog = (props) => {
           </Container>
         )}
       </Modal.Body>
-      
     </Modal>
   );
 };

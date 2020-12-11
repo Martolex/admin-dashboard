@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { deleteCall, get } from "../../../utils/requests";
 import { reviewsApi } from "../../../utils/EndPoints";
 import moment from "moment";
 import ReviewModal from "./reviewModal";
+import Table from "../../../utils/Table";
+import IDGen from "../../../utils/IDGen";
 const ReviewsDashboard = (props) => {
   const [reviews, setReviews] = useState([]);
   const [viewReview, setCurrReview] = useState({
@@ -40,6 +42,28 @@ const ReviewsDashboard = (props) => {
       review: reviews.find((review) => review.id === id),
     });
   }
+  const headerCols = [
+    "REVIEW ID",
+    "BOOK",
+    "RATING",
+    "REVIEW",
+    "POSTED BY",
+    "DATE/TIME",
+    "DELETE",
+  ];
+  const renderRow = (review) => [
+    IDGen(review.id),
+    review.book.name,
+    review.rating,
+    <Button variant="info" onClick={() => openReview(review.id)}>
+      View Review
+    </Button>,
+    review.user.name,
+    moment(review.createdAt).fromNow(),
+    <Button onClick={() => deleteReview(review.id)} variant="danger">
+      Delete
+    </Button>,
+  ];
   return (
     <Container className="mt-4" fluid>
       <ReviewModal
@@ -51,54 +75,16 @@ const ReviewsDashboard = (props) => {
       <Row className="justify-content-center">
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th width="20%">REVIEW ID</th>
-                  <th>BOOK</th>
-                  <th>RATING</th>
-                  <th>REVIEW</th>
-                  <th>POSTED BY</th>
-                  <th>DATE/TIME</th>
-                  <th>DELETE</th>
-                </tr>
-              </thead>
-              {reviews.length > 0 ? (
-                <tbody>
-                  {reviews.map((review) => (
-                    <tr key={review.id}>
-                      <td>{review.id}</td>
-                      <td>{review.book.name}</td>
-                      <td>{review.rating}</td>
-                      <td>
-                        <Button
-                          variant="info"
-                          onClick={() => openReview(review.id)}
-                        >
-                          View Review
-                        </Button>
-                      </td>
-                      <td>{review.user.name}</td>
-                      <td>{moment(review.createdAt).fromNow()}</td>
-                      <td>
-                        <Button
-                          onClick={() => deleteReview(review.id)}
-                          variant="danger"
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Reviews</h2>
-                  </td>
-                </tr>
+            <Table
+              data={reviews}
+              keyExtractor={(review) => review.id}
+              headerCols={headerCols}
+              renderRow={renderRow}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Reviews</h2>
               )}
-            </Table>
+              selectable={false}
+            />
           </div>
         </Col>
       </Row>

@@ -17,3 +17,5 @@ export const orderStatus = {
   INTRANSIT: "INTRANSIT",
   DELIVERED: "DELIVERED",
 };
+
+export const paymentMethods = { COD: "COD", CASHFREE: "CASHFREE" };

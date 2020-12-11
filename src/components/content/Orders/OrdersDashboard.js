@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Table, Row, Col, Nav } from "react-bootstrap";
+import { Container, Row, Col, Nav, Button } from "react-bootstrap";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import "../../../styles/Content/Orders/OrderDashboard.scss";
@@ -9,10 +9,14 @@ import moment from "moment";
 import { get } from "../../../utils/requests";
 import IDGen from "../../../utils/IDGen";
 import { orderStatus } from "../../../utils/enums";
+import Table from "../../../utils/Table";
+import FiltersDialog from "./FiltersDialog";
+import { FiFilter } from "react-icons/fi";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
+  const [filters, setFilters] = useState({ status: orderStatus.PROCESSING });
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   async function getData(api, params) {
-    console.log(api);
     try {
       const [data] = await get(api, true, params);
       setOrders(data);
@@ -21,18 +25,49 @@ const OrdersDashboard = (props) => {
     }
   }
   useEffect(() => {
-    getData(ordersApi.getOrders);
-  }, []);
+    console.log(filters);
+    getData(ordersApi.getOrders, filters);
+  }, [filters]);
   function getOrderByType(eventKey) {
-    getData(ordersApi.getOrders, { status: eventKey });
+    setFilters({ status: eventKey });
   }
+
+  function openFiltersDialog() {
+    setFilterDialogOpen(true);
+  }
+
+  const tableHeaders = [
+    "ORDER ID",
+    "CUSTOMER NAME",
+    "DELIVERY CITY",
+    "PAYMENT MODE",
+    "PAYMENT STATUS",
+    "ORDER PRICE",
+    "ORDER DATE",
+  ];
+
+  const renderRow = (item) => [
+    <Link to={`${props.location.pathname}/${item.id}`}>{IDGen(item.id)}</Link>,
+    item.user.name,
+    item.address.city,
+    item.paymentMode,
+    item.paymentStatus,
+    `Rs. ${item.totalAmount}/-`,
+    moment(item.createdAt).format("DD-MM-YYYY"),
+  ];
+
   return (
     <Container className="mt-4" fluid>
-      <Row className="mb-3 py-2">
-        <Col
-          style={{ border: "1px solid #ddd", borderRadius: 5 }}
-          className="py-2 mx-3"
-        >
+      <FiltersDialog
+        isOpen={filterDialogOpen}
+        handleClose={() => setFilterDialogOpen(false)}
+        filterSetter={setFilters}
+      />
+      <Row
+        className="mb-3  mx-1"
+        style={{ border: "1px solid #ddd", borderRadius: 5 }}
+      >
+        <Col className="py-2">
           <Nav
             onSelect={getOrderByType}
             variant="pills"
@@ -55,48 +90,31 @@ const OrdersDashboard = (props) => {
             </Nav.Item>
           </Nav>
         </Col>
+        <Col md={2} className="py-2">
+          <Button
+            className="align-items"
+            block
+            variant="primary"
+            onClick={openFiltersDialog}
+          >
+            <FiFilter className="mr-2" />
+            FILTERS
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Col>
           <div style={{ border: "1px solid #eee" }}>
-            <Table hover>
-              <thead className="bg-primary">
-                <tr>
-                  <th>ORDER ID</th>
-                  <th>CUSTOMER NAME</th>
-                  <th>DELIVERY CITY</th>
-                  <th>PAYMENT MODE</th>
-                  <th>PAYMENT STATUS</th>
-                  <th>ORDER PRICE</th>
-                  <th>ORDER DATE</th>
-                </tr>
-              </thead>
-              {orders.length > 0 ? (
-                <tbody>
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td>
-                        <Link to={`${props.location.pathname}/${order.id}`}>
-                          {IDGen(order.id)}
-                        </Link>
-                      </td>
-                      <td>{order.user.name}</td>
-                      <td>{order.address.city}</td>
-                      <td>{order.paymentMode}</td>
-                      <td>{order.paymentStatus}</td>
-                      <td>Rs. {order.totalAmount}/-</td>
-                      <td>{moment(order.createdAt).format("DD-MM-YYYY")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tr>
-                  <td colspan="100%">
-                    <h2 className="w-100 text-center display-4">No Orders</h2>
-                  </td>
-                </tr>
+            <Table
+              data={orders}
+              keyExtractor={(item) => item.id}
+              headerCols={tableHeaders}
+              renderRow={renderRow}
+              selectable={false}
+              renderEmpty={() => (
+                <h2 className="w-100 text-center display-4">No Orders</h2>
               )}
-            </Table>
+            />
           </div>
         </Col>
       </Row>

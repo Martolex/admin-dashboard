@@ -36,7 +36,7 @@ const Login = (props) => {
       console.log("login success");
       history.push("/");
     }
-  }, [props.auth]);
+  }, [props.auth, history]);
   return (
     <Container style={{ height: "95%" }} className="mt-4 mb-0" fluid>
       <Row className="justify-content-center align-items-center h-100">

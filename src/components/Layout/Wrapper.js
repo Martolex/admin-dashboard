@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { Container, Col, Row, ListGroup } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import "../../styles/Layout/Wrapper.scss";
 import DataContainer from "./DataContainer";
 import SideBar from "./SideBar";
 import OrdersDashboard from "../content/Orders/OrdersDashboard";
-import OrderDetails from "../content/Orders/OrderDetails";
+import OrderDetails from "../content/Orders/OrderDetails/OrderDetails";
 import ReturnsDashboard from "../content/Returns/ReturnsDashboard";
 import RequestDashboard from "../content/BookRequests/RequestsDashboard";
 import BooksDashboard from "../content/Books/BooksDashboard";
-import SubscribersDashboard from "../content/subscribersDashboard";
+import LeadsDashboard from "../content/LeadsDashboard";
 import ReviewsDashboard from "../content/reviews/reviewsDashboard";
 import { BiPackage } from "react-icons/bi";
-import { FaBook, FaUser } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 import { GiGraduateCap, GiReturnArrow } from "react-icons/gi";
 import { GoRequestChanges } from "react-icons/go";
 import {
@@ -60,10 +58,10 @@ const sideBarItems = [
     component: ReviewsDashboard,
   },
   {
-    title: "subscribers",
-    path: "/subscribers",
+    title: "leads",
+    path: "/leads",
     icon: { component: MdEmail },
-    component: SubscribersDashboard,
+    component: LeadsDashboard,
   },
   {
     title: "ambassadors",
