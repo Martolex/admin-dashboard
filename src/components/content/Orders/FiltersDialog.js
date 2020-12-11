@@ -2,26 +2,35 @@ import React, { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Container } from "react-bootstrap";
+import { paymentMethods, paymentStatus } from "../../../utils/enums";
 
 const sellerTypes = ["MARTOLEX", "OTHERS"];
+
+const initialFiltersState = {
+  sellerTypes: [],
+  paymentMethods: [],
+  paymentStatus: [],
+  minOrderDate: undefined,
+  maxOrderDate: undefined,
+};
+
 const FiltersDialog = ({ isOpen, handleClose, filterSetter, ...props }) => {
-  const [filters, setFilters] = useState({
-    sellerTypes: [],
-  });
-  function filterData() {
+  const [filters, setFilters] = useState({ ...initialFiltersState });
+  function applyFilters() {
     filterSetter((prev) => ({ ...prev, ...filters }));
     handleClose();
   }
-  React.useEffect(() => {
-    console.log(filters);
-  }, [filters]);
-
-  function changeSellerType(event) {
-    const newSellerFilters = filters.sellerTypes.includes(event.target.value)
-      ? filters.sellerTypes.filter((type) => type !== event.target.value)
-      : [...filters.sellerTypes, event.target.value];
-    setFilters({ ...filters, sellerTypes: newSellerFilters });
+  function clearFilters() {
+    setFilters({ ...initialFiltersState });
+    filterSetter((prev) => ({ ...prev, ...initialFiltersState }));
+    handleClose();
   }
+  const onFilterChange = (filterName) => (event) => {
+    const newFilters = filters[filterName].includes(event.target.value)
+      ? filters[filterName].filter((type) => type !== event.target.value)
+      : [...filters[filterName], event.target.value];
+    setFilters({ ...filters, [filterName]: newFilters });
+  };
 
   return (
     <Modal centered show={isOpen} onHide={handleClose}>
@@ -42,11 +51,57 @@ const FiltersDialog = ({ isOpen, handleClose, filterSetter, ...props }) => {
                   {sellerTypes.map((type, idx) => (
                     <Form.Check
                       inline
-                      onChange={changeSellerType}
+                      onChange={onFilterChange("sellerTypes")}
                       label={type}
+                      checked={filters.sellerTypes.includes(type)}
                       value={type}
                       type="checkbox"
                       name="sellerType"
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col>
+              <Row>
+                <Col>
+                  <p className="lead">Payment Method</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  {Object.values(paymentMethods).map((type, idx) => (
+                    <Form.Check
+                      onChange={onFilterChange("paymentMethods")}
+                      label={type}
+                      value={type}
+                      checked={filters.paymentMethods.includes(type)}
+                      type="checkbox"
+                      name="paymentMethods"
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <Col>
+                  <p className="lead">Payment Status</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  {Object.values(paymentStatus).map((type, idx) => (
+                    <Form.Check
+                      onChange={onFilterChange("paymentStatus")}
+                      label={type}
+                      value={type}
+                      checked={filters.paymentStatus.includes(type)}
+                      type="checkbox"
+                      name="paymentStatus"
                     />
                   ))}
                 </Col>
@@ -72,7 +127,7 @@ const FiltersDialog = ({ isOpen, handleClose, filterSetter, ...props }) => {
                           ? new Date(filters.minOrderDate)
                               .toISOString()
                               .substring(0, 10)
-                          : null
+                          : ""
                       }
                       onChange={(event) =>
                         setFilters({
@@ -93,7 +148,7 @@ const FiltersDialog = ({ isOpen, handleClose, filterSetter, ...props }) => {
                           ? new Date(filters.maxOrderDate)
                               .toISOString()
                               .substring(0, 10)
-                          : null
+                          : ""
                       }
                       onChange={(event) =>
                         setFilters({
@@ -110,8 +165,11 @@ const FiltersDialog = ({ isOpen, handleClose, filterSetter, ...props }) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={filterData} variant="success">
-          FILTER
+        <Button variant="danger" onClick={clearFilters}>
+          Clear{" "}
+        </Button>
+        <Button onClick={applyFilters} variant="success">
+          Filter
         </Button>
       </Modal.Footer>
     </Modal>
