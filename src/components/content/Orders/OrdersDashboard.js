@@ -15,7 +15,7 @@ import { FiFilter } from "react-icons/fi";
 const OrdersDashboard = (props) => {
   const [orders, setOrders] = useState([]);
   const [filters, setFilters] = useState({ status: orderStatus.PROCESSING });
-  const [filterDialogOpen, setFilterDialogOpen] = useState(true);
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   async function getData(api, params) {
     try {
       const [data] = await get(api, true, params);
