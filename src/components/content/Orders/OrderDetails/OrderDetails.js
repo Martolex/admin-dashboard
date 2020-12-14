@@ -80,7 +80,7 @@ const OrderDetails = (props) => {
   async function sendPaymentLink() {
     console.log("here");
     try {
-      post(ordersApi.resendPaymentLink(order.id), true);
+      await post(ordersApi.resendPaymentLink(order.id), true);
       alert("link sent successfully");
     } catch (err) {
       alert(err);

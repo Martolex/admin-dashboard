@@ -9,7 +9,6 @@ import { ordersApi } from "../../../../utils/EndPoints";
 const OrderSummaryCard = ({ order, ...props }) => {
   const [deliveryDateEditingMode, setDeliveryDateEditingMode] = useState(false);
   const [deliveryDates, setDeliveryDates] = useState({});
-  console.log(props.orderModifier);
   async function modifyDeliveryDates() {
     try {
       await post(ordersApi.modifyDeliveryDates(order.id), true, deliveryDates);
