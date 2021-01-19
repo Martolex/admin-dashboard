@@ -12,6 +12,7 @@ const AddNewAmbassadorDialog = (props) => {
     city: "",
     state: "",
     zip: "",
+    referralCode: "",
   });
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -84,6 +85,7 @@ const AddNewAmbassadorDialog = (props) => {
         state: data.state,
         userId: data.userId,
         zip: data.zip,
+        referralCode: data.referralCode.toUpperCase(),
       };
       await post(ambassadorsApi.createAmbassador, true, ambassadorParams);
       props.reload();
@@ -237,6 +239,25 @@ const AddNewAmbassadorDialog = (props) => {
                 />
                 <Form.Control.Feedback type="invalid">
                   ZIP code is required
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <Form.Group controlId="referralCode">
+                <Form.Label>referral Code</Form.Label>
+                <Form.Control
+                  maxLength={6}
+                  minLength={6}
+                  value={data.referralCode}
+                  required
+                  onChange={(event) =>
+                    setData({ ...data, referralCode: event.target.value })
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  referralCode is required
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
